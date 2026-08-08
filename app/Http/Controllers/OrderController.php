@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
@@ -82,21 +83,62 @@ class OrderController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
             'address' => 'required|string',
             'item_ordered' => 'required|string',
             'price' => 'required|integer',
             'payment_method' => 'required|in:COD,QRIS',
         ]);
 
-        Order::create([
+        // 1. Simpan pesanan ke database
+        $order = Order::create([
             'name' => $request->name,
+            'phone' => $request->phone,
             'address' => $request->address,
             'item_ordered' => $request->item_ordered,
             'price' => $request->price,
             'payment_method' => $request->payment_method,
         ]);
 
+        // 2. Format pesan WhatsApp untuk Admin
+        $message = "🚨 *ADA PESANAN MASUK BARU!* 🚨\n\n" .
+                   "👤 *Nama:* {$order->name}\n" .
+                   "📱 *No. HP:* {$order->phone}\n" .
+                   "🍔 *Menu:* {$order->item_ordered}\n" .
+                   "💰 *Total:* Rp " . number_format($order->price, 0, ',', '.') . "\n" .
+                   "💳 *Pembayaran:* {$order->payment_method}\n" .
+                   "📍 *Alamat:* {$order->address}\n\n" .
+                   "Segera proses pesanannya ya, Juragan!";
+
+        // 3. Kirim pesan otomatis via API Fonnte ke nomor Admin
+        try {
+            Http::withHeaders([
+                'Authorization' => env('FONNTE_TOKEN'),
+            ])->post('https://api.fonnte.com/send', [
+                'target' => env('ADMIN_WHATSAPP'),
+                'message' => $message,
+            ]);
+        } catch (\Exception $e) {
+            // Jika gagal mengirim pesan WA, pesanan tetap tersimpan aman di database
+        }
+
         return redirect()->back()->with('success', 'Pesanan berhasil dibuat! Terima kasih sudah memesan.');
+    }
+
+    // Method untuk menampilkan dashboard rekap data pesanan admin
+    public function adminDashboard()
+    {
+        $orders = Order::latest()->get();
+        return view('admin.dashboard', compact('orders'));
+    }
+
+    // Method untuk menghapus data pesanan pada dashboard admin
+    public function destroy($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->delete();
+
+        return redirect()->back()->with('success', 'Pesanan berhasil dihapus.');
     }
 
     public function about()

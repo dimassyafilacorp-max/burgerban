@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,6 +10,11 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'address', 'item_ordered', 'price', 'payment_method', 'status'
+        'name',
+        'phone',
+        'address',
+        'payment_method',
+        'item_ordered',
+        'price',
     ];
 }

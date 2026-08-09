@@ -42,7 +42,7 @@ export const menuItems: MenuItem[] = [
     price: 37000,
     description: 'Terdiri dari: Beef Burger, Crispy Chicken Burger, dan Egg Smoke Burger.',
     badge: 'Favorit',
-    image: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f6?auto=format&fit=crop&w=600&q=80',
+    image: '/images/profil.png',
   },
   {
     id: 'bbc-a',

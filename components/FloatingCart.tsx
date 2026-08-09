@@ -1,14 +1,52 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { CartItem } from '@/data/menu';
 
 interface FloatingCartProps {
   totalItems?: number;
 }
 
-export default function FloatingCart({ totalItems = 2 }: FloatingCartProps) {
-  // Jika keranjang kosong, tombol tidak perlu ditampilkan (opsional)
-  if (totalItems <= 0) return null;
+export default function FloatingCart({ totalItems: initialTotalItems }: FloatingCartProps) {
+  const [cartCount, setCartCount] = useState<number>(0);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    const updateCartCount = () => {
+      const savedCart = localStorage.getItem('burgerban_cart');
+      if (savedCart) {
+        try {
+          const cart: CartItem[] = JSON.parse(savedCart);
+          // Menghitung total kuantitas seluruh pesanan (bukan sekadar jumlah jenis item)
+          const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+          setCartCount(total);
+        } catch (e) {
+          console.error('Failed to parse cart data:', e);
+          setCartCount(0);
+        }
+      } else {
+        // Gunakan initialTotalItems jika ada, atau 0 jika kosong
+        setCartCount(initialTotalItems ?? 0);
+      }
+    };
+
+    updateCartCount();
+
+    // Event Listener untuk mendengarkan perubahan dari komponen/tab lain
+    window.addEventListener('storage', updateCartCount);
+    window.addEventListener('cart-updated', updateCartCount);
+
+    return () => {
+      window.removeEventListener('storage', updateCartCount);
+      window.removeEventListener('cart-updated', updateCartCount);
+    };
+  }, [initialTotalItems]);
+
+  // Hindari Hydration Mismatch saat render pertama di server
+  if (!isMounted || cartCount <= 0) return null;
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -30,8 +68,11 @@ export default function FloatingCart({ totalItems = 2 }: FloatingCartProps) {
         <span className="font-bold text-sm tracking-wide">Keranjang</span>
 
         {/* Badge Jumlah Item (Kuning Emas) */}
-        <span className="bg-[#fbbf24] text-black font-extrabold text-xs px-2 py-0.5 rounded-full min-w-[22px] text-center flex items-center justify-center">
-          {totalItems}
+        <span
+          suppressHydrationWarning
+          className="bg-[#fbbf24] text-black font-extrabold text-xs px-2 py-0.5 rounded-full min-w-[22px] text-center flex items-center justify-center"
+        >
+          {cartCount}
         </span>
       </Link>
     </div>

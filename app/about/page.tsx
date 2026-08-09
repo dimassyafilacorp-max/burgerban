@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import Navbar from '@/components/Navbar';
@@ -36,6 +35,7 @@ function JourneySection() {
     },
   ];
 
+  // Menggunakan Variants resmi Framer Motion dengan Bezier Array agar bebas error TS2322
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -51,7 +51,10 @@ function JourneySection() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: 'easeOut' },
+      transition: { 
+        duration: 0.5, 
+        ease: [0, 0, 0.2, 1] // Persamaan persis easeOut dalam format array angka
+      },
     },
   };
 

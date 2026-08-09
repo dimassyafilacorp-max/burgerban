@@ -2,7 +2,7 @@
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 function JourneySection() {
   const journeys = [
@@ -35,7 +35,8 @@ function JourneySection() {
     },
   ];
 
-  const containerVariants = {
+  // Penambahan tipe Variants untuk mencegah error TS2322 pada 'ease'
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -45,7 +46,7 @@ function JourneySection() {
     },
   };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
@@ -134,7 +135,7 @@ export default function AboutPage() {
       {/* MAIN CONTENT */}
       <main className="pt-28 pb-16 px-4 max-w-6xl mx-auto w-full flex-1">
         
-        {/* 2. TEKS NARASI (Gambar Sebelah Kanan) */}
+        {/* 2. TEKS NARASI */}
         <section className="mb-12">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-gray-900 mb-8 leading-tight">
             Kelezatan Autentik, Kualitas Tanpa Kompromi, Harga untuk Semua Kalangan.
@@ -154,7 +155,7 @@ export default function AboutPage() {
             </p>
 
             <p>
-              <strong>Komitmen dan Keunggulan Kami:</strong> Di BURGER BAN, kami memegang teguh komitmen untuk menyajikan burger yang lezat, higienis, dan terjangkau bagi seluruh kalangan masyarakat. Keunggulan utama kami terletak pada konsistensi rasa dan kualitas bahan baku yang selalu terjaga. Kami percaya bahwa menikmati burger berkualitas tinggi, lezat, dan mengenylangkan tidak harus menguras kantong. BURGER BAN hadir untuk membuktikan bahwa standar rasa bintang lima kini bisa dinikmati oleh siapa saja, kapan saja.
+              <strong>Komitmen dan Keunggulan Kami:</strong> Di BURGER BAN, kami memegang teguh komitmen untuk menyajikan burger yang lezat, higienis, dan terjangkau bagi seluruh kalangan masyarakat. Keunggulan utama kami terletak pada konsistensi rasa dan kualitas bahan baku yang selalu terjaga. Kami percaya bahwa menikmati burger berkualitas tinggi, lezat, dan mengenyangkan tidak harus menguras kantong. BURGER BAN hadir untuk membuktikan bahwa standar rasa bintang lima kini bisa dinikmati oleh siapa saja, kapan saja.
             </p>
           </div>
         </section>

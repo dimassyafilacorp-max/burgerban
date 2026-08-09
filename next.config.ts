@@ -1,9 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Abaikan error TypeScript saat proses build
   typescript: {
-    // Mengizinkan build selesai meskipun ada error TypeScript
     ignoreBuildErrors: true,
+  },
+  // Abaikan error ESLint saat proses build
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 

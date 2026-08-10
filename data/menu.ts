@@ -33,7 +33,7 @@ export const menuItems: MenuItem[] = [
     price: 35000,
     description: 'Terdiri dari: Beef Burger, Chicken Burger, dan Egg Smoke Burger.',
     badge: 'Hemat',
-    image: 'https://images.unsplash.com/photo-1610614819513-58e34989848b?auto=format&fit=crop&w=600&q=80',
+    image: '/images/banbox_a.png',
   },
   {
     id: 'banbox-b',
@@ -42,7 +42,7 @@ export const menuItems: MenuItem[] = [
     price: 37000,
     description: 'Terdiri dari: Beef Burger, Crispy Chicken Burger, dan Egg Smoke Burger.',
     badge: 'Favorit',
-    image: '/images/profil.png',
+    image: '/images/banbox_b.png',
   },
   {
     id: 'bbc-a',
@@ -50,7 +50,7 @@ export const menuItems: MenuItem[] = [
     category: 'paket',
     price: 32000,
     description: 'Terdiri dari: Big Beef Burger dan Big Chicken Burger.',
-    image: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=600&q=80',
+    image: '/images/bbc_a.png',
   },
   {
     id: 'bbc-b',
@@ -58,7 +58,7 @@ export const menuItems: MenuItem[] = [
     category: 'paket',
     price: 34000,
     description: 'Terdiri dari: Big Beef Burger dan Big Crispy Chicken Burger.',
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80',
+    image: '/images/bbc_b.png',
   },
   {
     id: 'miniban-a',
@@ -67,7 +67,7 @@ export const menuItems: MenuItem[] = [
     price: 26000,
     description: 'Terdiri dari: Beef Burger, Chicken Burger, dan Egg Smoke Burger (porsi mini/ringan).',
     badge: 'Super Murah',
-    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80',
+    image: '/images/miniban_a.png',
   },
   {
     id: 'miniban-b',
@@ -75,7 +75,7 @@ export const menuItems: MenuItem[] = [
     category: 'paket',
     price: 28000,
     description: 'Terdiri dari: Beef Burger, Chicken Burger, dan Egg Smoke Burger.',
-    image: 'https://images.unsplash.com/photo-1610614819513-58e34989848b?auto=format&fit=crop&w=600&q=80',
+    image: '/images/miniban_b.png',
   },
 
   // --- 2. MENU BURGER SATUAN ---

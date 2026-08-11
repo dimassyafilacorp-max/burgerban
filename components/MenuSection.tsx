@@ -147,7 +147,7 @@ export default function MenuSection() {
       {totalCartCount > 0 && (
         <button
           onClick={() => setIsCartOpen(true)}
-          className="fixed bottom-6 right-6 z-40 bg-lime-500 hover:bg-lime-400 text-black font-extrabold px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-3 transition transform active:scale-95"
+          className="fixed bottom-6 right-6 z-40 bg-amber-400 hover:bg-amber-500 text-black font-extrabold px-5 py-3.5 rounded-full shadow-2xl flex items-center gap-3 transition transform active:scale-95"
         >
           <div className="relative">
             <ShoppingBag className="w-6 h-6" />
@@ -277,7 +277,7 @@ export default function MenuSection() {
                     onClick={() => handlePageChange(page)}
                     className={`w-11 h-11 flex items-center justify-center rounded-xl font-bold text-sm transition ${
                       currentPage === page
-                        ? 'bg-lime-500 text-white shadow-sm'
+                        ? 'bg-amber-400 text-black shadow-sm'
                         : 'bg-white border border-gray-200 text-gray-800 hover:bg-gray-50'
                     }`}
                   >
@@ -331,7 +331,7 @@ export default function MenuSection() {
           <div className="flex items-center gap-2">
             <ShoppingBag className="w-5 h-5 text-gray-900" />
             <h2 className="font-bold text-lg text-gray-900">Keranjang Belanja</h2>
-            <span className="bg-lime-100 text-lime-800 text-xs font-bold px-2 py-0.5 rounded-full" suppressHydrationWarning>
+            <span className="bg-amber-100 text-amber-900 text-xs font-bold px-2 py-0.5 rounded-full" suppressHydrationWarning>
               {totalCartCount} item
             </span>
           </div>
@@ -366,7 +366,7 @@ export default function MenuSection() {
                   <p className="text-xs text-gray-500">
                     Rp {item.price.toLocaleString('id-ID')}
                   </p>
-                  <p className="text-xs font-extrabold text-lime-600 mt-0.5">
+                  <p className="text-xs font-extrabold text-amber-600 mt-0.5">
                     Subtotal: Rp {(item.price * item.quantity).toLocaleString('id-ID')}
                   </p>
                 </div>
@@ -406,14 +406,14 @@ export default function MenuSection() {
           <div className="p-5 border-t border-gray-100 bg-gray-50 space-y-4">
             <div className="flex items-center justify-between text-base font-bold text-gray-900">
               <span>Total Harga:</span>
-              <span className="text-xl text-lime-600" suppressHydrationWarning>
+              <span className="text-xl text-amber-600" suppressHydrationWarning>
                 Rp {totalPrice.toLocaleString('id-ID')}
               </span>
             </div>
 
             <button
               onClick={handleCheckoutWA}
-              className="w-full bg-lime-500 hover:bg-lime-400 text-black font-extrabold py-3.5 rounded-xl shadow-md transition text-sm flex items-center justify-center gap-2"
+              className="w-full bg-amber-400 hover:bg-amber-500 text-black font-extrabold py-3.5 rounded-xl shadow-md transition text-sm flex items-center justify-center gap-2"
             >
               <span>Pesan via WhatsApp</span>
             </button>

@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, ArrowRight } from 'lucide-react';
-import { WHATSAPP_NUMBER } from '@/data/menu';
 
 export default function KemitraanSection() {
   const [formData, setFormData] = useState({
@@ -14,200 +12,104 @@ export default function KemitraanSection() {
     message: '',
   });
 
+  const steps = [
+    {
+      step: 'STEP 1',
+      title: 'Pilih Program & Konsultasi',
+      description:
+        'Tentukan apakah Anda ingin mengambil program Suplai Putus, Konsinyasi, atau Co-Branding sesuai kebutuhan bisnis Anda.',
+    },
+    {
+      step: 'STEP 2',
+      title: 'Proses & Pengelolaan Tim',
+      description:
+        'Tim profesional Burgerban siap mendampingi dari penyiapan bahan baku hingga suplai produk secara berkala.',
+    },
+    {
+      step: 'STEP 3',
+      title: 'Bisnis Berjalan & Berkembang',
+      description:
+        'Nikmati pertumbuhan bisnis F&B Anda bersama dukungan brand lokal yang kuat dan terpercaya di Indonesia.',
+    },
+  ];
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const whatsappNumber = '6282117637898';
 
-    let waMessage = `*KONSULTASI KEMITRAAN BANGOR*\n\n`;
-    waMessage += `👤 *Nama Lengkap:* ${formData.fullName}\n`;
-    waMessage += `✉️ *Email:* ${formData.email}\n`;
-    waMessage += `📞 *No. Telepon:* ${formData.phone}\n`;
-    waMessage += `🤝 *Jenis Kemitraan:* ${formData.partnershipType || '-'}\n`;
-    waMessage += `📊 *Estimasi Kebutuhan:* ${formData.businessScale || '-'}\n`;
-    waMessage += `💬 *Pesan/Pertanyaan:* ${formData.message}\n`;
+    let textMessage = `*KONSULTASI KEMITRAAN BURGERBAN*\n\n`;
+    textMessage += `👤 *Nama Lengkap:* ${formData.fullName}\n`;
+    textMessage += `✉️ *Email:* ${formData.email}\n`;
+    textMessage += `📞 *No. Telepon:* ${formData.phone}\n`;
+    textMessage += `🤝 *Jenis Kemitraan:* ${formData.partnershipType || '-'}\n`;
+    textMessage += `📊 *Estimasi Kebutuhan:* ${formData.businessScale || '-'}\n`;
+    textMessage += `💬 *Pesan/Pertanyaan:* ${formData.message}\n`;
 
-    const encodedMessage = encodeURIComponent(waMessage);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
-  };
-
-  const scrollToForm = (type?: string) => {
-    if (type) {
-      setFormData((prev) => ({ ...prev, partnershipType: type }));
-    }
-    const formElement = document.getElementById('form-konsultasi');
-    if (formElement) {
-      formElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(textMessage)}`,
+      '_blank'
+    );
   };
 
   return (
-    <section id="kemitraan" className="bg-stone-950 text-white py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-20">
+    <section id="kemitraan" className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto space-y-16">
         
-        {/* Banner Hero Kemitraan */}
-        <div className="relative rounded-3xl overflow-hidden bg-stone-900 border border-stone-800 p-8 sm:p-14 text-center sm:text-left flex flex-col items-center sm:items-start justify-center shadow-2xl">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-25" />
-          <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent" />
-
-          <div className="relative z-10 max-w-2xl space-y-4">
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
-              Jadi Bagian dari Bangor, <br />
-              <span className="text-lime-400">The Fastest Growing Local Burger in Indonesia</span>
-            </h2>
-            <p className="text-stone-300 text-sm sm:text-base leading-relaxed">
-              Pilih program kemitraan fleksibel Bangor—mulai dari suplai putus B2B, konsinyasi, hingga co-branding untuk mengembangkan bisnis Anda bersama kami.
-            </p>
-            <button
-              onClick={() => scrollToForm()}
-              className="mt-4 bg-lime-400 hover:bg-lime-500 text-stone-950 font-bold px-6 py-3 rounded-full transition shadow-lg shadow-lime-400/20"
-            >
-              Lihat Pilihan Program
-            </button>
-          </div>
-        </div>
-
-        {/* Section Pilih Program Kemitraan */}
+        {/* 1. CARA KERJA KEMITRAAN */}
         <div className="space-y-10">
-          <div className="text-center">
-            <h3 className="text-3xl sm:text-4xl font-extrabold text-lime-400">
-              Pilih Program Kemitraan Anda
-            </h3>
-          </div>
+          {/* Title: Diubah total dari hijau lime ke Kuning Amber (#f59e0b / text-amber-500) */}
+          <h2 
+            className="text-3xl sm:text-4xl font-extrabold text-center text-amber-500"
+            style={{ color: '#f59e0b' }}
+          >
+            Cara Kerja Kemitraan Burgerban
+          </h2>
 
+          {/* Grid Step Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Card 1: Suplai Putus */}
-            <div className="bg-stone-900/90 rounded-2xl p-6 border border-stone-800 flex flex-col justify-between hover:border-lime-400/50 transition">
-              <div className="space-y-4">
-                <span className="inline-block bg-lime-400 text-stone-950 font-bold text-xs px-3 py-1 rounded-full uppercase">
-                  B2B Wholesale
-                </span>
-                <h4 className="text-2xl font-bold text-white">Suplai Putus</h4>
-                <p className="text-stone-400 text-sm leading-relaxed">
-                  Mitra membeli paket bahan baku secara berkala sesuai kebutuhan stok operasional kedai/resto mitra.
-                </p>
+            {steps.map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-stone-50 border border-stone-100 rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-sm"
+              >
+                <div className="space-y-3">
+                  {/* Badge Step: Diubah dari lime ke Kuning Amber (#fbbf24 / bg-amber-400) */}
+                  <span
+                    className="inline-block bg-amber-400 text-stone-950 font-extrabold text-[11px] px-3 py-1 rounded-md tracking-wider"
+                    style={{ backgroundColor: '#fbbf24', color: '#0c0a09' }}
+                  >
+                    {item.step}
+                  </span>
 
-                <div className="bg-stone-800/60 rounded-xl p-4 text-xs text-stone-300 space-y-2 border border-stone-700/50">
-                  <p className="font-semibold text-white">Terdapat 2 paket kerja sama:</p>
-                  <p className="flex items-center gap-1.5"><Check className="w-4 h-4 text-lime-400" /> 1. Paket 8 porsi</p>
-                  <p className="flex items-center gap-1.5"><Check className="w-4 h-4 text-lime-400" /> 2. Paket 10 porsi</p>
+                  <h3 className="text-lg font-bold text-stone-900">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-stone-500 leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
               </div>
-
-              <button
-                onClick={() => scrollToForm('Suplai Putus (B2B Wholesale)')}
-                className="mt-6 w-full bg-stone-800 hover:bg-stone-700 text-white font-bold py-3 rounded-xl transition text-sm"
-              >
-                Pilih Suplai Putus
-              </button>
-            </div>
-
-            {/* Card 2: Sistem Konsinyasi */}
-            <div className="bg-stone-900/90 rounded-2xl p-6 border border-stone-800 flex flex-col justify-between hover:border-lime-400/50 transition">
-              <div className="space-y-4">
-                <span className="inline-block bg-stone-800 text-stone-200 font-bold text-xs px-3 py-1 rounded-full uppercase border border-stone-700">
-                  Titip Jual
-                </span>
-                <h4 className="text-2xl font-bold text-white">Sistem Konsinyasi</h4>
-                <p className="text-stone-400 text-sm leading-relaxed">
-                  Disesuaikan jika Anda juga menitipkan produk siap olah / frozen, namun umumnya untuk bahan baku murni menggunakan sistem jual-putus dengan minimum pesanan.
-                </p>
-
-                <div className="bg-stone-800/60 rounded-xl p-4 text-xs text-stone-300 space-y-1 border border-stone-700/50">
-                  <p className="font-semibold text-white mb-1">Ketentuan:</p>
-                  <p>Fleksibel berdasarkan produk frozen & sistem jual-putus minimum pesanan.</p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => scrollToForm('Sistem Konsinyasi (Titip Jual)')}
-                className="mt-6 w-full bg-stone-800 hover:bg-stone-700 text-white font-bold py-3 rounded-xl transition text-sm"
-              >
-                Pilih Konsinyasi
-              </button>
-            </div>
-
-            {/* Card 3: Co-Branding */}
-            <div className="bg-stone-900/90 rounded-2xl p-6 border border-stone-800 flex flex-col justify-between hover:border-lime-400/50 transition">
-              <div className="space-y-4">
-                <span className="inline-block bg-lime-400 text-stone-950 font-bold text-xs px-3 py-1 rounded-full uppercase">
-                  Partner Brand
-                </span>
-                <h4 className="text-2xl font-bold text-white">Co-Branding / Dukungan Menu</h4>
-                <p className="text-stone-400 text-sm leading-relaxed">
-                  Kami memperbolehkan mitra mencantumkan menu burger kami di buku menu mereka atau menggunakan brand kami sebagai varian partner brand.
-                </p>
-
-                <div className="bg-stone-800/60 rounded-xl p-4 text-xs text-stone-300 space-y-1 border border-stone-700/50">
-                  <p className="font-semibold text-white mb-1">Keuntungan:</p>
-                  <p>Menambah variasi menu tanpa harus merintis brand baru dari awal.</p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => scrollToForm('Co-Branding / Dukungan Menu')}
-                className="mt-6 w-full bg-stone-800 hover:bg-stone-700 text-white font-bold py-3 rounded-xl transition text-sm"
-              >
-                Pilih Co-Branding
-              </button>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Section Cara Kerja Kemitraan */}
-        <div className="space-y-10">
-          <div className="text-center">
-            <h3 className="text-3xl sm:text-4xl font-extrabold text-lime-400">
-              Cara Kerja Kemitraan Bangor
+        {/* 2. FORM KONSULTASI KEMITRAAN */}
+        <div className="bg-[#1c1a19] text-white rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl space-y-8">
+          <div className="space-y-2">
+            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+              Konsultasi Kemitraan Burgerban
             </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-stone-900/60 p-6 rounded-2xl border border-stone-800 space-y-3">
-              <span className="bg-lime-400/20 text-lime-400 font-extrabold text-xs px-3 py-1 rounded-md">
-                STEP 1
-              </span>
-              <h4 className="text-lg font-bold text-white">Pilih Program & Konsultasi</h4>
-              <p className="text-stone-400 text-sm leading-relaxed">
-                Tentukan apakah Anda ingin mengambil program Suplai Putus, Konsinyasi, atau Co-Branding sesuai kebutuhan bisnis Anda.
-              </p>
-            </div>
-
-            <div className="bg-stone-900/60 p-6 rounded-2xl border border-stone-800 space-y-3">
-              <span className="bg-lime-400/20 text-lime-400 font-extrabold text-xs px-3 py-1 rounded-md">
-                STEP 2
-              </span>
-              <h4 className="text-lg font-bold text-white">Proses & Pengelolaan Tim</h4>
-              <p className="text-stone-400 text-sm leading-relaxed">
-                Tim profesional Bangor siap mendampingi dari penyiapan bahan baku hingga suplai produk secara berkala.
-              </p>
-            </div>
-
-            <div className="bg-stone-900/60 p-6 rounded-2xl border border-stone-800 space-y-3">
-              <span className="bg-lime-400/20 text-lime-400 font-extrabold text-xs px-3 py-1 rounded-md">
-                STEP 3
-              </span>
-              <h4 className="text-lg font-bold text-white">Bisnis Berjalan & Berkembang</h4>
-              <p className="text-stone-400 text-sm leading-relaxed">
-                Nikmati pertumbuhan bisnis F&B Anda bersama dukungan brand lokal yang kuat dan terpercaya di Indonesia.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Form Konsultasi Kemitraan */}
-        <div id="form-konsultasi" className="bg-stone-900 border border-stone-800 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-8">
-          <div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Konsultasi Kemitraan Bangor
-            </h3>
-            <p className="text-stone-400 text-xs sm:text-sm mt-2">
+            <p className="text-xs sm:text-sm text-stone-400">
               Tidak ada komitmen apapun. Tim kami akan menghubungi Anda via WhatsApp untuk menjelaskan seluruh skema dan menjawab pertanyaan Anda.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="text-xs font-semibold text-stone-300 block mb-2">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* Nama Lengkap */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-stone-300">
                   Nama Lengkap <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -216,12 +118,13 @@ export default function KemitraanSection() {
                   placeholder="Jane Doe"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full bg-stone-800 border border-stone-700 text-stone-200 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-lime-400 transition"
+                  className="w-full bg-white text-stone-900 text-sm px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
                 />
               </div>
 
-              <div>
-                <label className="text-xs font-semibold text-stone-300 block mb-2">
+              {/* Email */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-stone-300">
                   Email <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -230,12 +133,15 @@ export default function KemitraanSection() {
                   placeholder="janedoe@gmail.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-stone-800 border border-stone-700 text-stone-200 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-lime-400 transition"
+                  className="w-full bg-white text-stone-900 text-sm px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
                 />
               </div>
+            </div>
 
-              <div>
-                <label className="text-xs font-semibold text-stone-300 block mb-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {/* No Telepon */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-stone-300">
                   No. Telepon <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -244,19 +150,20 @@ export default function KemitraanSection() {
                   placeholder="08xxxxxxxxxx"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full bg-stone-800 border border-stone-700 text-stone-200 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-lime-400 transition"
+                  className="w-full bg-white text-stone-900 text-sm px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
                 />
               </div>
 
-              <div>
-                <label className="text-xs font-semibold text-stone-300 block mb-2">
+              {/* Jenis Kemitraan */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-stone-300">
                   Jenis Kemitraan <span className="text-red-500">*</span>
                 </label>
                 <select
                   required
                   value={formData.partnershipType}
                   onChange={(e) => setFormData({ ...formData, partnershipType: e.target.value })}
-                  className="w-full bg-stone-800 border border-stone-700 text-stone-200 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-lime-400 transition"
+                  className="w-full bg-white text-stone-900 text-sm px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
                 >
                   <option value="" disabled>Pilih jenis kemitraan</option>
                   <option value="Suplai Putus (B2B Wholesale)">Suplai Putus (B2B Wholesale)</option>
@@ -266,15 +173,16 @@ export default function KemitraanSection() {
               </div>
             </div>
 
-            <div>
-              <label className="text-xs font-semibold text-stone-300 block mb-2">
+            {/* Skala Bisnis */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-stone-300">
                 Estimasi Kebutuhan / Skala Bisnis <span className="text-red-500">*</span>
               </label>
               <select
                 required
                 value={formData.businessScale}
                 onChange={(e) => setFormData({ ...formData, businessScale: e.target.value })}
-                className="w-full bg-stone-800 border border-stone-700 text-stone-200 text-sm px-4 py-3 rounded-xl focus:outline-none focus:border-lime-400 transition"
+                className="w-full bg-white text-stone-900 text-sm px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
               >
                 <option value="" disabled>Pilih estimasi kebutuhan</option>
                 <option value="Resto / Kedai Kecil (< 50 porsi/hari)">Resto / Kedai Kecil (&lt; 50 porsi/hari)</option>
@@ -283,26 +191,29 @@ export default function KemitraanSection() {
               </select>
             </div>
 
-            <div>
-              <label className="text-xs font-semibold text-stone-300 block mb-2">
+            {/* Pesan */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-stone-300">
                 Saya ingin tahu lebih lanjut tentang <span className="text-red-500">*</span>
               </label>
               <textarea
-                required
                 rows={4}
+                required
                 placeholder="Tuliskan pesan di sini"
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full bg-stone-800 border border-stone-700 text-stone-200 text-sm p-4 rounded-xl focus:outline-none focus:border-lime-400 transition resize-none"
+                className="w-full bg-white text-stone-900 text-sm p-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none"
               />
             </div>
 
-            <div className="text-center pt-2">
+            {/* Tombol Submit: Diubah dari Lime ke Kuning Amber (#fbbf24) */}
+            <div className="pt-4 flex justify-center">
               <button
                 type="submit"
-                className="bg-lime-400 hover:bg-lime-500 text-stone-950 font-black text-sm px-8 py-3.5 rounded-full transition flex items-center gap-2 mx-auto shadow-lg shadow-lime-400/20 active:scale-95"
+                className="bg-amber-400 hover:bg-amber-500 text-stone-950 font-extrabold text-sm sm:text-base px-8 py-3.5 rounded-full transition transform active:scale-95 shadow-lg shadow-amber-400/20"
+                style={{ backgroundColor: '#fbbf24', color: '#0c0a09' }}
               >
-                Jadwalkan Konsultasi Gratis <ArrowRight className="w-4 h-4" />
+                Jadwalkan Konsultasi Gratis &rarr;
               </button>
             </div>
           </form>

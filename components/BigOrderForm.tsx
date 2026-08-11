@@ -154,7 +154,7 @@ Mohon konfirmasi dan informasi selanjutnya. Terima kasih!`;
           <div className="text-center pt-4">
             <button
               type="submit"
-              className="bg-lime-500 hover:bg-lime-400 text-black font-bold px-8 py-3 rounded-full text-sm transition"
+              className="bg-amber-400 hover:bg-amber-500 text-black font-bold px-8 py-3 rounded-full text-sm transition"
             >
               Kirim Form Pemesanan
             </button>

@@ -1,3 +1,5 @@
+'use client';
+
 export default function AboutUsSection() {
   const timelineEvents = [
     {
@@ -22,7 +24,7 @@ export default function AboutUsSection() {
       year: '2026',
       title: 'Bangkit Kembali',
       description: 'Memulai lagi dengan konsep yang berbeda dari sebelumnya dan persiapan lebih matang.',
-      highlight: true, // Warna aksen hijau/terang seperti pada acuan gambar
+      highlight: true,
     },
   ];
 
@@ -49,14 +51,17 @@ export default function AboutUsSection() {
             </p>
 
             <p>
-              <strong className="text-stone-900 font-bold">Komitmen dan Keunggulan Kami:</strong> Di BURGER BAN, kami memegang teguh komitmen untuk menyajikan burger yang lezat, higienis, dan terjangkau bagi seluruh kalangan masyarakat. Keunggulan utama kami terletak pada konsistensi rasa dan kualitas bahan baku yang selalu terjaga. Kami percaya bahwa menikmati burger berkualitas tinggi, lezat, dan mengenyangkan tidak harus menguras kantong. BURGER BAN hadir untuk membuktikan bahwa standar rasa bintang lima kini bisa dinikmati oleh siapa saja, kapan saja.
+              <strong className="text-stone-900 font-bold">Komitmen dan Keunggulan Kami:</strong> Di BURGER BAN, kami memegang teguh komitmen untuk menyajikan burger yang lezat, higienis, dan terjangkau bagi seluruh kalangan masyarakat. Keunggulan utama kami terletak pada konsistensi rasa dan kualitas bahan baku yang selalu terjaga. Kami percaya bahwa menikmati burger berkualitas tinggi, lezat, dan mengenylkan tidak harus menguras kantong. BURGER BAN hadir untuk membuktikan bahwa standar rasa bintang lima kini bisa dinikmati oleh siapa saja, kapan saja.
             </p>
           </div>
         </div>
 
         {/* Section Journey / Perjalanan */}
-        <div className="bg-black text-white rounded-3xl p-8 sm:p-12 shadow-2xl space-y-8">
-          <div className="text-center space-y-1">
+        <div className="bg-black text-white rounded-3xl p-8 sm:p-12 shadow-2xl space-y-8 relative overflow-hidden">
+          {/* Background Glow Amber */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 text-center space-y-1">
             <span className="text-xs font-semibold tracking-widest text-stone-400 uppercase">
               JOURNEY
             </span>
@@ -66,18 +71,20 @@ export default function AboutUsSection() {
           </div>
 
           {/* Cards Grid Timeline */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {timelineEvents.map((item, idx) => (
               <div
                 key={idx}
-                className="bg-white text-stone-900 rounded-2xl p-6 flex flex-col justify-between shadow-md hover:translate-y-[-2px] transition duration-200"
+                className={`bg-white text-stone-900 rounded-2xl p-6 flex flex-col justify-between shadow-md hover:-translate-y-1 transition duration-200 ${
+                  item.highlight ? 'ring-2 ring-amber-400' : ''
+                }`}
               >
                 <div>
-                  {/* Badge Tahun */}
+                  {/* Badge Tahun - DIUBAH DARI bg-[#b2f042] MENJADI bg-amber-400 */}
                   <span
-                    className={`inline-block px-4 py-1 rounded-full text-xs font-black mb-4 ${
+                    className={`inline-block px-4 py-1 rounded-full text-xs font-black mb-4 shadow-sm ${
                       item.highlight
-                        ? 'bg-[#b2f042] text-stone-950'
+                        ? 'bg-amber-400 text-stone-950'
                         : 'bg-stone-800 text-white'
                     }`}
                   >

@@ -178,7 +178,7 @@ export default function CheckoutPage() {
 
               <button
                 type="submit"
-                className="w-full mt-4 bg-lime-500 hover:bg-lime-400 text-black font-extrabold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md active:scale-95"
+                className="w-full mt-4 bg-amber-400 hover:bg-amber-500 text-black font-extrabold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md active:scale-95"
               >
                 <Send className="w-4 h-4" /> Kirim Pesanan via WhatsApp
               </button>
@@ -204,7 +204,7 @@ export default function CheckoutPage() {
                       <p className="text-xs text-gray-500">
                         Rp {item.price.toLocaleString('id-ID')} / porsi
                       </p>
-                      <p className="text-xs font-extrabold text-lime-600 mt-0.5">
+                      <p className="text-xs font-extrabold text-amber-600 mt-0.5">
                         Subtotal: Rp {(item.price * item.quantity).toLocaleString('id-ID')}
                       </p>
                     </div>
@@ -250,7 +250,7 @@ export default function CheckoutPage() {
 
               <div className="border-t pt-4 flex justify-between items-center text-base font-extrabold text-gray-900">
                 <span>Total Pembayaran:</span>
-                <span className="text-xl text-lime-600">
+                <span className="text-xl text-amber-600">
                   Rp {totalPrice.toLocaleString('id-ID')}
                 </span>
               </div>

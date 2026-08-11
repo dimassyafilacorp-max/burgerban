@@ -60,8 +60,8 @@ function JourneySection() {
 
   return (
     <section className="bg-black text-white rounded-3xl p-6 sm:p-12 shadow-2xl relative overflow-hidden border border-stone-800 my-12">
-      {/* Glow Effect Dekoratif */}
-      <div className="absolute top-0 right-0 w-72 h-72 bg-[#a3e635]/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Glow Effect Dekoratif (Warna Kuning Amber) */}
+      <div className="absolute top-0 right-0 w-72 h-72 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header Journey */}
       <div className="text-center mb-8 sm:mb-12 relative z-10">
@@ -99,7 +99,7 @@ function JourneySection() {
               transition-all duration-300 ease-out transform hover:-translate-y-2 hover:shadow-[0_12px_30px_rgba(255,255,255,0.15)]
               border ${
                 item.highlight
-                  ? 'border-[#a3e635] shadow-[0_0_20px_rgba(163,230,53,0.25)]'
+                  ? 'border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.3)]'
                   : 'border-transparent hover:border-stone-300'
               }
             `}
@@ -108,14 +108,14 @@ function JourneySection() {
               <span
                 className={`inline-block px-3.5 py-1 rounded-full text-xs font-bold mb-4 transition-transform duration-300 group-hover:scale-110 ${
                   item.highlight
-                    ? 'bg-[#a3e635] text-black shadow-sm'
+                    ? 'bg-amber-400 text-black shadow-sm'
                     : 'bg-stone-900 text-white'
                 }`}
               >
                 {item.year}
               </span>
 
-              <h3 className="text-lg font-bold mb-2 group-hover:text-amber-600 transition-colors">
+              <h3 className="text-lg font-bold mb-2 group-hover:text-amber-500 transition-colors">
                 {item.title}
               </h3>
               <p className="text-stone-600 text-sm leading-relaxed">

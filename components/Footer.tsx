@@ -31,14 +31,14 @@ export default function Footer() {
             <h4 className="text-sm font-bold text-white mb-4">Quick Menu</h4>
             <ul className="space-y-2.5 text-sm text-stone-400">
               <li>
-                <Link href="/" className="hover:text-white transition-colors">
+                <Link href="/" className="hover:text-amber-400 transition-colors">
                   Menu
                 </Link>
               </li>
               <li>
                 <Link
                   href="/big-order"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-amber-400 transition-colors"
                 >
                   Big Order
                 </Link>
@@ -53,7 +53,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/kemitraan"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-amber-400 transition-colors"
                 >
                   Kemitraan
                 </Link>
@@ -68,7 +68,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-amber-400 transition-colors"
                 >
                   Tentang Kami
                 </Link>
@@ -89,7 +89,7 @@ export default function Footer() {
               <span className="text-xs text-stone-400 block mb-1">Email</span>
               <a
                 href="mailto:contactburgerban@gmail.com"
-                className="text-sm font-bold text-white hover:underline"
+                className="text-sm font-bold text-white hover:text-amber-400 transition-colors"
               >
                 contactburgerban@gmail.com
               </a>
@@ -106,7 +106,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="w-9 h-9 rounded-full bg-stone-800 hover:bg-stone-700 flex items-center justify-center text-white transition-colors"
+                  className="w-9 h-9 rounded-full bg-stone-800 hover:bg-amber-400 hover:text-black flex items-center justify-center text-white transition-all"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
@@ -119,7 +119,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="TikTok"
-                  className="w-9 h-9 rounded-full bg-stone-800 hover:bg-stone-700 flex items-center justify-center text-white transition-colors"
+                  className="w-9 h-9 rounded-full bg-stone-800 hover:bg-amber-400 hover:text-black flex items-center justify-center text-white transition-all"
                 >
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.98-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.67 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.82.56-1.31 1.56-1.28 2.56.02.91.5 1.78 1.25 2.29 1.02.7 2.41.68 3.42-.01.73-.5 1.19-1.34 1.25-2.22.05-2.83.02-5.66.02-8.49z" />
@@ -138,7 +138,7 @@ export default function Footer() {
 
           <button
             onClick={handleContactClick}
-            className="bg-[#a3e635] hover:bg-[#84cc16] text-black font-bold text-sm px-6 py-2.5 rounded-full transition-colors active:scale-95 shadow-md"
+            className="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-sm px-6 py-2.5 rounded-full transition-all active:scale-95 shadow-md shadow-amber-400/20"
           >
             Kontak Kami
           </button>

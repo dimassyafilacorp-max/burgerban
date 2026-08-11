@@ -88,7 +88,7 @@ export default function FormsSection() {
                 placeholder="Jane Doe"
                 value={consultForm.fullName}
                 onChange={(e) => setConsultForm({ ...consultForm, fullName: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
 
@@ -102,7 +102,7 @@ export default function FormsSection() {
                 placeholder="janedoe@gmail.com"
                 value={consultForm.email}
                 onChange={(e) => setConsultForm({ ...consultForm, email: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function FormsSection() {
                 placeholder="08xxxxxxxxxx"
                 value={consultForm.phone}
                 onChange={(e) => setConsultForm({ ...consultForm, phone: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
 
@@ -130,7 +130,7 @@ export default function FormsSection() {
                 required
                 value={consultForm.partnershipType}
                 onChange={(e) => setConsultForm({ ...consultForm, partnershipType: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-500 appearance-none"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400 appearance-none"
               >
                 <option value="" disabled>Pilih jenis kemitraan</option>
                 <option value="Franchise / Outlet">Franchise / Outlet</option>
@@ -149,7 +149,7 @@ export default function FormsSection() {
               required
               value={consultForm.businessScale}
               onChange={(e) => setConsultForm({ ...consultForm, businessScale: e.target.value })}
-              className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-500 appearance-none"
+              className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400 appearance-none"
             >
               <option value="" disabled>Pilih estimasi kebutuhan</option>
               <option value="Kecil (50 - 200 Pcs / Skala Perorangan)">Kecil (50 - 200 Pcs / Skala Perorangan)</option>
@@ -168,14 +168,14 @@ export default function FormsSection() {
               placeholder="Tuliskan pesan di sini"
               value={consultForm.message}
               onChange={(e) => setConsultForm({ ...consultForm, message: e.target.value })}
-              className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-lime-500"
+              className="w-full bg-white text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-400"
             />
           </div>
 
           <div className="text-center pt-4">
             <button
               type="submit"
-              className="bg-lime-400 hover:bg-lime-300 text-black font-extrabold px-8 py-3.5 rounded-full text-sm transition transform hover:scale-105 inline-flex items-center gap-2 shadow-lg cursor-pointer"
+              className="bg-amber-400 hover:bg-amber-500 text-black font-extrabold px-8 py-3.5 rounded-full text-sm transition transform hover:scale-105 inline-flex items-center gap-2 shadow-lg cursor-pointer"
             >
               Jadwalkan Konsultasi Gratis →
             </button>
@@ -204,7 +204,7 @@ export default function FormsSection() {
                 placeholder="Jane Doe"
                 value={bigOrderForm.fullName}
                 onChange={(e) => setBigOrderForm({ ...bigOrderForm, fullName: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
 
@@ -215,7 +215,7 @@ export default function FormsSection() {
                 required
                 value={bigOrderForm.eventDate}
                 onChange={(e) => setBigOrderForm({ ...bigOrderForm, eventDate: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
           </div>
@@ -231,7 +231,7 @@ export default function FormsSection() {
                 placeholder="08xxxxxxxxxx"
                 value={bigOrderForm.phone}
                 onChange={(e) => setBigOrderForm({ ...bigOrderForm, phone: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
 
@@ -244,7 +244,7 @@ export default function FormsSection() {
                 placeholder="Minimal order 50 Pcs"
                 value={bigOrderForm.quantity}
                 onChange={(e) => setBigOrderForm({ ...bigOrderForm, quantity: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
           </div>
@@ -255,7 +255,7 @@ export default function FormsSection() {
               <select
                 value={bigOrderForm.serviceType}
                 onChange={(e) => setBigOrderForm({ ...bigOrderForm, serviceType: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
               >
                 <option value="">Pilih jenis layanan</option>
                 <option value="Big Order (Box)">Big Order (Box)</option>
@@ -271,7 +271,7 @@ export default function FormsSection() {
                 placeholder="Masukkan alamat lengkap lokasi acaramu"
                 value={bigOrderForm.location}
                 onChange={(e) => setBigOrderForm({ ...bigOrderForm, location: e.target.value })}
-                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime-500"
+                className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
               />
             </div>
           </div>
@@ -281,7 +281,7 @@ export default function FormsSection() {
             <select
               value={bigOrderForm.eventType}
               onChange={(e) => setBigOrderForm({ ...bigOrderForm, eventType: e.target.value })}
-              className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-lime-500"
+              className="w-full bg-white text-gray-900 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-400"
             >
               <option value="">Pilih Jenis Acara</option>
               <option value="Wedding / Pernikahan">Wedding / Pernikahan</option>
@@ -295,7 +295,7 @@ export default function FormsSection() {
           <div className="text-center pt-4">
             <button
               type="submit"
-              className="bg-lime-500 hover:bg-lime-400 text-black font-extrabold px-8 py-3 rounded-full text-sm transition transform hover:scale-105 inline-flex items-center gap-2 shadow-lg cursor-pointer"
+              className="bg-amber-400 hover:bg-amber-500 text-black font-extrabold px-8 py-3 rounded-full text-sm transition transform hover:scale-105 inline-flex items-center gap-2 shadow-lg cursor-pointer"
             >
               <Send className="h-4 w-4" /> Kirim Form Pemesanan
             </button>

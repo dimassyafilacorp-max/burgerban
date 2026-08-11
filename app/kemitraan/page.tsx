@@ -64,9 +64,10 @@ export default function KemitraanPage() {
               putus B2B, konsinyasi, hingga co-branding untuk mengembangkan
               bisnis Anda bersama kami.
             </p>
+            {/* Tombol diganti dari lime ke kuning bg-amber-400 */}
             <button
               onClick={scrollToPrograms}
-              className="bg-[#a3e635] text-black font-bold px-6 py-3.5 rounded-full hover:bg-[#8ece25] transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base"
+              className="bg-amber-400 text-stone-950 font-bold px-6 py-3.5 rounded-full hover:bg-amber-500 transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base"
             >
               Lihat Pilihan Program
             </button>
@@ -79,7 +80,8 @@ export default function KemitraanPage() {
           className="py-16 px-4 max-w-6xl mx-auto scroll-mt-20"
         >
           <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#65a30d]">
+            {/* Title diganti ke text-amber-500 */}
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-amber-500">
               Pilih Program Kemitraan Anda
             </h2>
           </div>
@@ -88,7 +90,8 @@ export default function KemitraanPage() {
             {/* CARD 1 */}
             <div className="bg-white border border-stone-200 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
               <div>
-                <span className="inline-block px-3 py-1 bg-[#a3e635] text-stone-950 text-xs font-bold rounded-full mb-4">
+                {/* Badge diganti ke bg-amber-400 */}
+                <span className="inline-block px-3 py-1 bg-amber-400 text-stone-950 text-xs font-bold rounded-full mb-4">
                   B2B Wholesale
                 </span>
                 <h3 className="text-xl font-bold mb-3 text-stone-900">
@@ -161,7 +164,8 @@ export default function KemitraanPage() {
             {/* CARD 3 */}
             <div className="bg-white border border-stone-200 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
               <div>
-                <span className="inline-block px-3 py-1 bg-[#a3e635] text-stone-950 text-xs font-bold rounded-full mb-4">
+                {/* Badge diganti ke bg-amber-400 */}
+                <span className="inline-block px-3 py-1 bg-amber-400 text-stone-950 text-xs font-bold rounded-full mb-4">
                   Partner Brand
                 </span>
                 <h3 className="text-xl font-bold mb-3 text-stone-900">
@@ -197,7 +201,8 @@ export default function KemitraanPage() {
         {/* 3. CARA KERJA KEMITRAAN */}
         <section className="py-12 px-4 max-w-6xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#65a30d]">
+            {/* Title diganti ke text-amber-500 */}
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-amber-500">
               Cara Kerja Kemitraan Burgerban
             </h2>
           </div>
@@ -205,7 +210,8 @@ export default function KemitraanPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* STEP 1 */}
             <div className="bg-stone-50 border border-stone-100 rounded-2xl p-6">
-              <span className="inline-block px-3 py-1 bg-[#a3e635]/30 text-[#4d7c0f] text-xs font-bold rounded-full mb-4">
+              {/* Badge STEP 1 diganti ke bg-amber-400 */}
+              <span className="inline-block px-3 py-1 bg-amber-400 text-stone-950 text-xs font-bold rounded-full mb-4">
                 STEP 1
               </span>
               <h3 className="text-lg font-bold mb-2 text-stone-900">
@@ -219,7 +225,8 @@ export default function KemitraanPage() {
 
             {/* STEP 2 */}
             <div className="bg-stone-50 border border-stone-100 rounded-2xl p-6">
-              <span className="inline-block px-3 py-1 bg-[#a3e635]/30 text-[#4d7c0f] text-xs font-bold rounded-full mb-4">
+              {/* Badge STEP 2 diganti ke bg-amber-400 */}
+              <span className="inline-block px-3 py-1 bg-amber-400 text-stone-950 text-xs font-bold rounded-full mb-4">
                 STEP 2
               </span>
               <h3 className="text-lg font-bold mb-2 text-stone-900">
@@ -233,7 +240,8 @@ export default function KemitraanPage() {
 
             {/* STEP 3 */}
             <div className="bg-stone-50 border border-stone-100 rounded-2xl p-6">
-              <span className="inline-block px-3 py-1 bg-[#a3e635]/30 text-[#4d7c0f] text-xs font-bold rounded-full mb-4">
+              {/* Badge STEP 3 diganti ke bg-amber-400 */}
+              <span className="inline-block px-3 py-1 bg-amber-400 text-stone-950 text-xs font-bold rounded-full mb-4">
                 STEP 3
               </span>
               <h3 className="text-lg font-bold mb-2 text-stone-900">
@@ -273,7 +281,7 @@ export default function KemitraanPage() {
                     placeholder="Jane Doe"
                     value={formData.nama}
                     onChange={handleInputChange}
-                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#a3e635]"
+                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
                   />
                 </div>
 
@@ -289,7 +297,7 @@ export default function KemitraanPage() {
                     placeholder="janedoe@gmail.com"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#a3e635]"
+                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
                   />
                 </div>
 
@@ -305,7 +313,7 @@ export default function KemitraanPage() {
                     placeholder="08xxxxxxxxxx"
                     value={formData.telepon}
                     onChange={handleInputChange}
-                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#a3e635]"
+                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
                   />
                 </div>
 
@@ -319,7 +327,7 @@ export default function KemitraanPage() {
                     required
                     value={formData.jenisKemitraan}
                     onChange={handleInputChange}
-                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#a3e635]"
+                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
                   >
                     <option value="" disabled>
                       Pilih jenis kemitraan
@@ -342,7 +350,7 @@ export default function KemitraanPage() {
                   required
                   value={formData.estimasiKebutuhan}
                   onChange={handleInputChange}
-                  className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#a3e635]"
+                  className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
                 >
                   <option value="" disabled>
                     Pilih estimasi kebutuhan
@@ -372,15 +380,15 @@ export default function KemitraanPage() {
                   placeholder="Tuliskan pesan di sini"
                   value={formData.pesan}
                   onChange={handleInputChange}
-                  className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#a3e635]"
+                  className="w-full bg-white text-gray-900 px-4 py-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
                 />
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button diganti ke bg-amber-400 hover:bg-amber-500 */}
               <div className="text-center pt-4">
                 <button
                   type="submit"
-                  className="bg-[#a3e635] text-stone-950 font-bold px-8 py-3.5 rounded-full hover:bg-[#8ece25] transition-all transform hover:scale-105 shadow-md text-sm sm:text-base inline-flex items-center gap-2"
+                  className="bg-amber-400 text-stone-950 font-bold px-8 py-3.5 rounded-full hover:bg-amber-500 transition-all transform hover:scale-105 shadow-md text-sm sm:text-base inline-flex items-center gap-2"
                 >
                   Jadwalkan Konsultasi Gratis →
                 </button>

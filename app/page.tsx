@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Package,
+  Lock,
 } from 'lucide-react';
 import { menuItems, categories, MenuItem, CartItem } from '@/data/menu';
 import Navbar from '@/components/Navbar';
@@ -42,7 +43,7 @@ export default function Home() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Membaca data LocalStorage setelah component di-mount di Client (Mencegah Hydration Error)
+  // Membaca data LocalStorage setelah component di-mount di Client
   useEffect(() => {
     setIsMounted(true);
     
@@ -85,6 +86,14 @@ export default function Home() {
     }
   }, [notes, isMounted]);
 
+  // Cek apakah ada minimal 1 Paket Bundling di dalam keranjang
+  const hasBundlingInCart = useMemo(() => {
+    if (!isMounted) return false;
+    return cart.some(
+      (item) => (item.category === 'paket' || item.category === 'combo') && item.quantity > 0
+    );
+  }, [cart, isMounted]);
+
   // Trigger animasi tombol keranjang mengambang
   const triggerCartAnimation = () => {
     setIsAnimating(true);
@@ -95,6 +104,14 @@ export default function Home() {
 
   // Tambah item ke keranjang
   const addToCart = (item: MenuItem) => {
+    const isPaket = item.category === 'paket' || item.category === 'combo';
+    
+    // Mencegah penambahan jika syarat Pre-Order belum terpenuhi
+    if (!isPaket && !hasBundlingInCart) {
+      alert('Sistem Pre-Order: Pilih minimal 1 Paket Bundling terlebih dahulu!');
+      return;
+    }
+
     setCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
       if (existingItem) {
@@ -128,7 +145,7 @@ export default function Home() {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
-  // Hitung total harga & jumlah pesanan (Diproteksi dengan isMounted untuk mencegah Hydration Issue)
+  // Hitung total harga & jumlah pesanan
   const totalCartCount = isMounted ? cart.reduce((sum, item) => sum + item.quantity, 0) : 0;
   const totalPrice = isMounted ? cart.reduce((sum, item) => sum + item.price * item.quantity, 0) : 0;
 
@@ -142,7 +159,6 @@ export default function Home() {
       return matchesCategory && matchesSearch;
     });
 
-    // Sort: Prioritaskan kategori 'paket' & 'combo' (Paket Bundling) di paling atas
     return items.sort((a, b) => {
       const isAPaket = (a.category as string) === 'paket' || (a.category as string) === 'combo';
       const isBPaket = (b.category as string) === 'paket' || (b.category as string) === 'combo';
@@ -161,7 +177,6 @@ export default function Home() {
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentMenuItems = filteredMenu.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Reset ke halaman 1 saat kategori atau pencarian berubah
   const handleCategoryChange = (categoryId: string) => {
     setActiveCategory(categoryId);
     setCurrentPage(1);
@@ -183,13 +198,18 @@ export default function Home() {
   const handleCheckoutWA = () => {
     if (cart.length === 0) return;
 
+    if (!hasBundlingInCart) {
+      alert('Sistem Pre-Order: Pesanan harus menyertakan minimal 1 Paket Bundling.');
+      return;
+    }
+
     if (!address) {
       alert('Mohon isi Alamat Pengiriman terlebih dahulu.');
       return;
     }
 
     let message = `*HALO BURGERBAN!* 🍔\n`;
-    message += `Saya ingin memesan menu berikut:\n\n`;
+    message += `Saya ingin memesan menu Pre-Order berikut:\n\n`;
 
     if (customerName) {
       message += `👤 *Nama Pemesan:* ${customerName}\n`;
@@ -220,219 +240,263 @@ export default function Home() {
       {/* Navbar Fixed */}
       <Navbar />
 
-      {/* Main Container */}
-      <div className="pt-16">
-        {/* Search Bar Panel */}
-        <section className="bg-white border-b border-gray-200 py-4 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <input
-                type="text"
-                placeholder="Cari menu favorit..."
-                value={searchQuery}
-                onChange={(e) => handleSearchChange(e.target.value)}
-                className="w-full bg-gray-100 text-sm text-gray-800 pl-10 pr-4 py-2.5 rounded-full border border-gray-200 focus:outline-none focus:border-black transition"
-              />
+      {/* Main Content Area */}
+      <div className="pt-16 flex-1 flex flex-col justify-between">
+        <div>
+          {/* Search Bar Panel */}
+          <section className="bg-white border-b border-gray-200 py-4 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+              <div className="relative flex-1 max-w-md">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <input
+                  type="text"
+                  placeholder="Cari menu favorit..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  className="w-full bg-gray-100 text-sm text-gray-800 pl-10 pr-4 py-2.5 rounded-full border border-gray-200 focus:outline-none focus:border-black transition"
+                />
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Hero Banner */}
-        <section className="bg-white border-b border-gray-200 py-12 px-4 text-center">
-          <div className="max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold mb-4 border border-amber-200">
-              <Flame className="h-4 w-4 text-amber-600" /> 100% Quality Premium Beef
+          {/* Hero Banner */}
+          <section className="bg-white border-b border-gray-200 py-12 px-4 text-center">
+            <div className="max-w-3xl mx-auto">
+              <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold mb-4 border border-amber-200">
+                <Flame className="h-4 w-4 text-amber-600" /> 100% Quality Premium Beef
+              </div>
+              <h1 className="text-4xl sm:text-6xl font-black italic text-gray-900 tracking-tight mb-4">
+                LEZAT, TEBAL, <span className="text-amber-500">BURGERBAN!</span>
+              </h1>
+              <p className="text-gray-600 text-base sm:text-lg max-w-xl mx-auto">
+                Nikmati varian burger lokal rasa internasional dengan kualitas daging pilihan dan harga terjangkau.
+              </p>
             </div>
-            <h1 className="text-4xl sm:text-6xl font-black italic text-gray-900 tracking-tight mb-4">
-              LEZAT, TEBAL, <span className="text-amber-500">BURGERBAN!</span>
-            </h1>
-            <p className="text-gray-600 text-base sm:text-lg max-w-xl mx-auto">
-              Nikmati varian burger lokal rasa internasional dengan kualitas daging pilihan dan harga terjangkau.
-            </p>
-          </div>
-        </section>
+          </section>
 
-        {/* Category Filter Pills & Menu Grid */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="menu">
-          <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-none mb-8">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => handleCategoryChange(cat.id)}
-                className={`px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
-                  activeCategory === cat.id
-                    ? 'bg-black text-white shadow-md'
-                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
-                }`}
-              >
-                {cat.id === 'paket' && <Package className="w-4 h-4 text-amber-400" />}
-                {cat.label}
-              </button>
-            ))}
-          </div>
+          {/* Category Filter Pills & Menu Grid */}
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="menu">
+            
+            {/* Banner Informasi Aturan Pre-Order */}
+            {isMounted && !hasBundlingInCart && (
+              <div className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center gap-3 text-amber-950 shadow-sm">
+                <div className="p-2.5 bg-amber-400/20 rounded-xl flex-shrink-0">
+                  <Lock className="w-5 h-5 text-amber-700" />
+                </div>
+                <div className="text-xs sm:text-sm">
+                  <p className="font-bold text-amber-900">Ketentuan Pre-Order Burgerban</p>
+                  <p className="text-amber-800">
+                    Silakan pilih minimal <strong>1 Paket Bundling</strong> terlebih dahulu untuk membuka akses pemesanan menu Burger &amp; Side Dishes ala carte lainnya.
+                  </p>
+                </div>
+              </div>
+            )}
 
-          {/* Menu Grid (Max 9 Item / 3 Baris) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentMenuItems.map((item) => {
-              const isPaket = (item.category as string) === 'paket' || (item.category as string) === 'combo';
-
-              return (
-                <div
-                  key={item.id}
-                  className={`bg-white rounded-2xl overflow-hidden border transition duration-300 flex flex-col justify-between group ${
-                    isPaket
-                      ? 'border-amber-300 shadow-md hover:shadow-xl ring-1 ring-amber-200'
-                      : 'border-gray-200 hover:shadow-xl'
+            <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-none mb-8">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => handleCategoryChange(cat.id)}
+                  className={`px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                    activeCategory === cat.id
+                      ? 'bg-black text-white shadow-md'
+                      : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
                   }`}
                 >
-                  <div>
-                    <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                      />
-                      <div className="absolute top-3 left-3 flex flex-col gap-1 items-start">
-                        {isPaket && (
-                          <span className="bg-black text-amber-400 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider flex items-center gap-1 shadow-md">
-                            <Package className="w-3 h-3" /> Paket Bundling
-                          </span>
+                  {cat.id === 'paket' && <Package className="w-4 h-4 text-amber-400" />}
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Menu Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {currentMenuItems.map((item) => {
+                const isPaket = (item.category as string) === 'paket' || (item.category as string) === 'combo';
+                const isLocked = isMounted && !isPaket && !hasBundlingInCart;
+
+                return (
+                  <div
+                    key={item.id}
+                    className={`relative bg-white rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col justify-between group ${
+                      isLocked
+                        ? 'border-gray-200 opacity-60 bg-gray-50'
+                        : isPaket
+                        ? 'border-amber-300 shadow-md hover:shadow-xl ring-1 ring-amber-200'
+                        : 'border-gray-200 hover:shadow-xl'
+                    }`}
+                  >
+                    <div>
+                      <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className={`w-full h-full object-cover transition duration-500 ${
+                            isLocked ? 'grayscale-[40%]' : 'group-hover:scale-105'
+                          }`}
+                        />
+                        <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10">
+                          {isPaket && (
+                            <span className="bg-black text-amber-400 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider flex items-center gap-1 shadow-md">
+                              <Package className="w-3 h-3" /> Paket Bundling
+                            </span>
+                          )}
+                          {item.badge && (
+                            <span className="bg-amber-400 text-black text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1 shadow-md">
+                              <Star className="h-3 w-3 fill-black" /> {item.badge}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Overlay Lock jika menu masih dikunci */}
+                        {isLocked && (
+                          <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px] flex items-center justify-center p-4">
+                            <span className="bg-black/90 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg border border-amber-400/30">
+                              <Lock className="w-3.5 h-3.5 text-amber-400" />
+                              Pilih Bundling Dulu
+                            </span>
+                          </div>
                         )}
-                        {item.badge && (
-                          <span className="bg-amber-400 text-black text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1 shadow-md">
-                            <Star className="h-3 w-3 fill-black" /> {item.badge}
-                          </span>
-                        )}
+                      </div>
+
+                      <div className="p-5">
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">{item.name}</h3>
+                        <p className="text-gray-500 text-sm leading-relaxed mb-4">
+                          {item.description}
+                        </p>
                       </div>
                     </div>
 
-                    <div className="p-5">
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">{item.name}</h3>
-                      <p className="text-gray-500 text-sm leading-relaxed mb-4">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
+                    <div className="p-5 pt-0 flex items-center justify-between border-t border-gray-100 mt-auto">
+                      <div>
+                        <span className="text-xs text-gray-400 block">Harga</span>
+                        <span className="text-lg font-extrabold text-gray-900">
+                          Rp {item.price.toLocaleString('id-ID')}
+                        </span>
+                      </div>
 
-                  <div className="p-5 pt-0 flex items-center justify-between border-t border-gray-100 mt-auto">
-                    <div>
-                      <span className="text-xs text-gray-400 block">Harga</span>
-                      <span className="text-lg font-extrabold text-gray-900">
-                        Rp {item.price.toLocaleString('id-ID')}
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => addToCart(item)}
-                      className="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-xl text-sm font-semibold transition active:scale-95 flex items-center gap-1 shadow-sm"
-                    >
-                      <Plus className="h-4 w-4" /> Tambah
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {filteredMenu.length === 0 && (
-            <div className="text-center py-16 text-gray-500">
-              Menu tidak ditemukan. Coba kata kunci lain!
-            </div>
-          )}
-
-          {/* Kontrol Pagination */}
-          {totalPages > 1 && (
-            <div className="mt-12 flex flex-col items-center gap-3">
-              <div className="flex items-center gap-2">
-                {/* Tombol Previous */}
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
-                  aria-label="Previous Page"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-
-                {/* Angka Halaman */}
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                  if (
-                    page === 1 ||
-                    page === totalPages ||
-                    (page >= currentPage - 1 && page <= currentPage + 1)
-                  ) {
-                    return (
                       <button
-                        key={page}
-                        onClick={() => handlePageChange(page)}
-                        className={`w-10 h-10 flex items-center justify-center rounded-xl font-bold text-sm transition ${
-                          currentPage === page
-                            ? 'bg-amber-400 text-black shadow-sm'
-                            : 'bg-white border border-gray-200 text-gray-800 hover:bg-gray-50'
+                        onClick={() => addToCart(item)}
+                        disabled={isLocked}
+                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-1 shadow-sm ${
+                          isLocked
+                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            : 'bg-black hover:bg-gray-800 text-white active:scale-95'
                         }`}
                       >
-                        {page}
+                        {isLocked ? (
+                          <>
+                            <Lock className="h-3.5 w-3.5" /> Terkunci
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="h-4 w-4" /> Tambah
+                          </>
+                        )}
                       </button>
-                    );
-                  } else if (
-                    (page === 2 && currentPage > 3) ||
-                    (page === totalPages - 1 && currentPage < totalPages - 2)
-                  ) {
-                    return (
-                      <span key={page} className="px-1 text-gray-400 font-bold">
-                        ...
-                      </span>
-                    );
-                  }
-                  return null;
-                })}
-
-                {/* Tombol Next */}
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
-                  aria-label="Next Page"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-
-              <p className="text-xs text-gray-500 mt-1">
-                Menampilkan {indexOfFirstItem + 1} sampai{' '}
-                {Math.min(indexOfLastItem, totalItems)} dari {totalItems} menu
-              </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          )}
-        </main>
-      </div>
 
-      {/* FLOATING CART BUTTON */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <button
-          onClick={() => setIsCartOpen(true)}
-          className={`flex items-center gap-3 bg-black hover:bg-stone-800 text-white px-5 py-3.5 rounded-full shadow-2xl border border-stone-800 transition-all duration-300 ease-out active:scale-95 ${
-            isAnimating
-              ? 'scale-110 -translate-y-1 ring-4 ring-amber-400/50 bg-stone-900'
-              : 'hover:scale-105'
-          }`}
-        >
-          <ShoppingBag
-            className={`h-5 w-5 text-white transition-transform duration-300 ${
-              isAnimating ? 'rotate-12' : ''
-            }`}
-          />
-          <span className="font-bold text-sm tracking-wide">Keranjang</span>
+            {filteredMenu.length === 0 && (
+              <div className="text-center py-16 text-gray-500">
+                Menu tidak ditemukan. Coba kata kunci lain!
+              </div>
+            )}
 
-          <span
-            suppressHydrationWarning
-            className={`bg-[#fbbf24] text-black font-extrabold text-xs px-2 py-0.5 rounded-full min-w-[22px] text-center flex items-center justify-center transition-transform duration-300 ${
-              isAnimating ? 'scale-125 bg-amber-300' : 'scale-100'
+            {/* Kontrol Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-12 flex flex-col items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    aria-label="Previous Page"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                    if (
+                      page === 1 ||
+                      page === totalPages ||
+                      (page >= currentPage - 1 && page <= currentPage + 1)
+                    ) {
+                      return (
+                        <button
+                          key={page}
+                          onClick={() => handlePageChange(page)}
+                          className={`w-10 h-10 flex items-center justify-center rounded-xl font-bold text-sm transition ${
+                            currentPage === page
+                              ? 'bg-amber-400 text-black shadow-sm'
+                              : 'bg-white border border-gray-200 text-gray-800 hover:bg-gray-50'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      );
+                    } else if (
+                      (page === 2 && currentPage > 3) ||
+                      (page === totalPages - 1 && currentPage < totalPages - 2)
+                    ) {
+                      return (
+                        <span key={page} className="px-1 text-gray-400 font-bold">
+                          ...
+                        </span>
+                      );
+                    }
+                    return null;
+                  })}
+
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    aria-label="Next Page"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <p className="text-xs text-gray-500 mt-1">
+                  Menampilkan {indexOfFirstItem + 1} sampai{' '}
+                  {Math.min(indexOfLastItem, totalItems)} dari {totalItems} menu
+                </p>
+              </div>
+            )}
+          </main>
+        </div>
+
+        {/* FLOATING CART BUTTON (Melayang & Berhenti Tepat Di Atas Footer) */}
+        <div className="sticky bottom-6 z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-end pointer-events-none pb-6 pt-2">
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className={`pointer-events-auto flex items-center gap-3 bg-black hover:bg-stone-800 text-white px-5 py-3.5 rounded-full shadow-2xl border border-stone-800 transition-all duration-300 ease-out active:scale-95 ${
+              isAnimating
+                ? 'scale-110 -translate-y-1 ring-4 ring-amber-400/50 bg-stone-900'
+                : 'hover:scale-105'
             }`}
           >
-            {totalCartCount}
-          </span>
-        </button>
+            <ShoppingBag
+              className={`h-5 w-5 text-white transition-transform duration-300 ${
+                isAnimating ? 'rotate-12' : ''
+              }`}
+            />
+            <span className="font-bold text-sm tracking-wide">Keranjang</span>
+
+            <span
+              suppressHydrationWarning
+              className={`bg-[#fbbf24] text-black font-extrabold text-xs px-2 py-0.5 rounded-full min-w-[22px] text-center flex items-center justify-center transition-transform duration-300 ${
+                isAnimating ? 'scale-125 bg-amber-300' : 'scale-100'
+              }`}
+            >
+              {totalCartCount}
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Footer */}
@@ -441,7 +505,6 @@ export default function Home() {
       {/* Slide-over Modal Keranjang */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 overflow-hidden">
-          {/* Backdrop */}
           <div
             className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
             onClick={() => setIsCartOpen(false)}
@@ -472,6 +535,13 @@ export default function Home() {
                   </div>
                 ) : (
                   <>
+                    {!hasBundlingInCart && (
+                      <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 font-semibold flex items-center gap-2">
+                        <Lock className="w-4 h-4 flex-shrink-0" />
+                        <span>Peringatan: Anda wajib menambahkan min. 1 Paket Bundling.</span>
+                      </div>
+                    )}
+
                     <div className="space-y-3">
                       {cart.map((item) => (
                         <div
@@ -485,7 +555,6 @@ export default function Home() {
                             </p>
                           </div>
 
-                          {/* Control Quantity */}
                           <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border border-gray-300">
                             <button
                               onClick={() => updateQuantity(item.id, -1)}
@@ -514,7 +583,6 @@ export default function Home() {
                       ))}
                     </div>
 
-                    {/* Form Detail Pelanggan & Alamat */}
                     <div className="pt-4 border-t border-gray-200 space-y-3">
                       <div>
                         <label className="text-xs font-semibold text-gray-600 block mb-1">
@@ -529,7 +597,6 @@ export default function Home() {
                         />
                       </div>
 
-                      {/* Field Alamat Pengiriman */}
                       <div>
                         <label className="text-xs font-semibold text-gray-600 block mb-1">
                           Alamat Pengiriman <span className="text-red-500">*</span>
@@ -572,7 +639,12 @@ export default function Home() {
 
                   <button
                     onClick={handleCheckoutWA}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md active:scale-98"
+                    disabled={!hasBundlingInCart}
+                    className={`w-full font-bold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md ${
+                      hasBundlingInCart
+                        ? 'bg-green-600 hover:bg-green-700 text-white active:scale-98'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
                   >
                     <Send className="h-5 w-5" /> Checkout via WhatsApp
                   </button>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Menu as MenuIcon, X } from 'lucide-react';
@@ -53,12 +54,18 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Logo Section: Emoji Burger + BURGERBAN */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl" role="img" aria-label="burger">
-            🍔
-          </span>
-          <span className="text-xl font-black italic tracking-wide text-gray-900 font-sans">
+        {/* Logo Section: Presisi Tinggi Atas-Bawah */}
+        <Link href="/" className="flex items-center gap-2.5">
+          <div className="relative w-9 h-9 flex-shrink-0 flex items-center justify-center">
+            <Image
+              src="/logo.png"
+              alt="Burgerban Logo"
+              fill
+              className="object-contain scale-125" // Scale dinaikkan sedikit untuk menghilangkan efek padding bawaan gambar
+              priority
+            />
+          </div>
+          <span className="text-2xl sm:text-3xl font-black italic tracking-wide text-[#0f172a] uppercase font-sans leading-none">
             BURGERBAN
           </span>
         </Link>
@@ -94,6 +101,7 @@ export default function Navbar() {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="md:hidden p-2 text-gray-700 hover:text-black focus:outline-none"
+          aria-label="Toggle navigation menu"
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
         </button>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ShoppingBag, X, Trash2, ArrowRight } from 'lucide-react';
-import { supabase } from '@/lib/supabase'; // Pastikan path lib supabase sudah benar
+import { supabase } from '@/lib/supabase';
 
 // Interface Item Keranjang
 export interface CartItem {

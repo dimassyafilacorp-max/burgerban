@@ -90,8 +90,8 @@ export default function Home() {
   const hasBundlingInCart = useMemo(() => {
     if (!isMounted) return false;
     return cart.some(
-      (item) => (item.category === 'paket' || item.category === 'combo') && item.quantity > 0
-    );
+      (item) => ((item.category as string) === 'paket' || (item.category as string) === 'combo') && item.quantity > 0
+  );
   }, [cart, isMounted]);
 
   // Trigger animasi tombol keranjang mengambang
@@ -104,7 +104,7 @@ export default function Home() {
 
   // Tambah item ke keranjang
   const addToCart = (item: MenuItem) => {
-    const isPaket = item.category === 'paket' || item.category === 'combo';
+    const isPaket = item.category as string === 'paket' || item.category as string === 'combo';
     
     // Mencegah penambahan jika syarat Pre-Order belum terpenuhi
     if (!isPaket && !hasBundlingInCart) {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Search, Eye, ShoppingCart, Package } from 'lucide-react';
-import { supabase } from '@/lib/supabase'; // Sesuaikan dengan lokasi lib supabase kamu
+import { supabase } from '@/lib/supabase';
 
 // Tipe Data Big Order
 interface BigOrder {
@@ -106,9 +106,9 @@ export default function AdminDashboard() {
   // Handler Update Status Big Order
   const handleBigStatusChange = async (id: string, newStatus: BigOrder['status']) => {
     setBigOrders((prev) =>
-      prev.map((ord) => (ord.id === id ? { ...ord, status: newStatus } : ord))
+      prev.map((ord) => (String(ord.id) === String(id) ? { ...ord, status: newStatus } : ord))
     );
-    if (selectedBigOrder && selectedBigOrder.id === id) {
+    if (selectedBigOrder && String(selectedBigOrder.id) === String(id)) {
       setSelectedBigOrder((prev) => (prev ? { ...prev, status: newStatus } : null));
     }
 
@@ -118,9 +118,9 @@ export default function AdminDashboard() {
   // Handler Update Status Regular Order
   const handleRegularStatusChange = async (id: string, newStatus: RegularOrder['status']) => {
     setRegularOrders((prev) =>
-      prev.map((ord) => (ord.id === id ? { ...ord, status: newStatus } : ord))
+      prev.map((ord) => (String(ord.id) === String(id) ? { ...ord, status: newStatus } : ord))
     );
-    if (selectedRegularOrder && selectedRegularOrder.id === id) {
+    if (selectedRegularOrder && String(selectedRegularOrder.id) === String(id)) {
       setSelectedRegularOrder((prev) => (prev ? { ...prev, status: newStatus } : null));
     }
 

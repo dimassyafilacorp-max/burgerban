@@ -78,6 +78,11 @@ export default function FloatingCart({ totalItems: initialTotalItems }: Floating
       return;
     }
 
+    if (cartItems.length === 0) {
+      alert('Keranjang belanjaan Anda kosong!');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -91,21 +96,30 @@ export default function FloatingCart({ totalItems: initialTotalItems }: Floating
       }));
 
       // 2. Insert ke Database Supabase (Tabel: regular_orders)
-      const { error } = await supabase.from('regular_orders').insert([
-        {
-          order_id: orderId,
-          nama: nama,
-          telepon: telepon,
-          items: itemsForDb,
-          total_harga: totalPrice,
-          catatan: catatan || '-',
-          status: 'Pending',
-        },
-      ]);
+      // Gunakan await & select() untuk memastikan database menerima data sebelum lanjut
+      const { data, error } = await supabase
+        .from('regular_orders')
+        .insert([
+          {
+            order_id: orderId,
+            nama: nama.trim(),
+            telepon: telepon.trim(),
+            items: itemsForDb,
+            total_harga: totalPrice,
+            catatan: catatan.trim() || '-',
+            status: 'Pending',
+          },
+        ])
+        .select();
 
       if (error) {
-        console.error('Gagal menyimpan ke Supabase:', error);
+        console.error('⚠️ Supabase Error Detail:', error.message, error.details);
+        alert(`Gagal menyimpan pesanan ke database: ${error.message}`);
+        setIsSubmitting(false);
+        return; // Hentikan jika database error
       }
+
+      console.log('✅ Pesanan berhasil disimpan ke Supabase:', data);
 
       // 3. Format Pesan WhatsApp
       let waMessage = `Halo Burgerban, saya mau pesan:\n\n`;
@@ -121,9 +135,12 @@ export default function FloatingCart({ totalItems: initialTotalItems }: Floating
       waMessage += `\n*Total Bayar:* Rp ${totalPrice.toLocaleString('id-ID')}\n`;
       if (catatan) waMessage += `*Catatan:* ${catatan}\n`;
 
-      // 4. Reset Keranjang LocalStorage
+      // 4. Reset Keranjang LocalStorage & State
       localStorage.removeItem('burgerban_cart');
       window.dispatchEvent(new Event('cart-updated'));
+      setNama('');
+      setTelepon('');
+      setCatatan('');
 
       // 5. Redirect ke WhatsApp
       const adminPhoneNumber = '6281234567890'; // Ganti dengan nomor WA Admin Burgerban kamu
@@ -132,8 +149,8 @@ export default function FloatingCart({ totalItems: initialTotalItems }: Floating
       setIsOpen(false);
       window.open(waUrl, '_blank');
     } catch (err) {
-      alert('Terjadi kesalahan saat memproses pesanan.');
-      console.error(err);
+      alert('Terjadi kesalahan koneksi saat memproses pesanan.');
+      console.error('Catch Error:', err);
     } finally {
       setIsSubmitting(false);
     }
@@ -198,6 +215,7 @@ export default function FloatingCart({ totalItems: initialTotalItems }: Floating
                       Rp {(item.price * item.quantity).toLocaleString('id-ID')}
                     </span>
                     <button
+                      type="button"
                       onClick={() => handleRemoveItem(item.id)}
                       className="text-neutral-500 hover:text-red-400 p-1 transition"
                     >
@@ -257,7 +275,7 @@ export default function FloatingCart({ totalItems: initialTotalItems }: Floating
                 className="w-full bg-amber-400 hover:bg-amber-500 disabled:bg-neutral-700 text-black font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-amber-400/10"
               >
                 {isSubmitting ? (
-                  'Memproses Pesanan...'
+                  'Memproses & Menyimpan Pesanan...'
                 ) : (
                   <>
                     Pesan Sekarang (WhatsApp)

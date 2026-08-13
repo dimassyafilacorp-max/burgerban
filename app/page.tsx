@@ -21,7 +21,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 // Nomor WhatsApp tujuan pemesanan
-const WHATSAPP_NUMBER = '6282143561141';
+const WHATSAPP_NUMBER = '6282318905789';
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('all');

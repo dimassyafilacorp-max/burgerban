@@ -39,7 +39,7 @@ interface RegularOrder {
 }
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'bigOrder' | 'regularOrder'>('bigOrder');
+  const [activeTab, setActiveTab] = useState<'bigOrder' | 'regularOrder'>('regularOrder'); // Default ke Order Keranjang
   
   // Data States
   const [bigOrders, setBigOrders] = useState<BigOrder[]>([]);
@@ -51,27 +51,53 @@ export default function AdminDashboard() {
   const [selectedBigOrder, setSelectedBigOrder] = useState<BigOrder | null>(null);
   const [selectedRegularOrder, setSelectedRegularOrder] = useState<RegularOrder | null>(null);
 
+  // Helper aman untuk parse items keranjang jika dari DB berbentuk string JSON
+  const parseItems = (rawItems: any): CartItem[] => {
+    if (!rawItems) return [];
+    if (typeof rawItems === 'string') {
+      try {
+        return JSON.parse(rawItems);
+      } catch (e) {
+        console.error('Error parsing items JSON:', e);
+        return [];
+      }
+    }
+    return Array.isArray(rawItems) ? rawItems : [];
+  };
+
   // 1. Fetch Big Orders
   const fetchBigOrders = async () => {
-    const { data, error } = await supabase
-      .from('orders')
-      .select('*')
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    if (!error && data) {
-      setBigOrders(data);
+      if (!error && data) {
+        setBigOrders(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch big orders:', err);
     }
   };
 
   // 2. Fetch Regular Orders
   const fetchRegularOrders = async () => {
-    const { data, error } = await supabase
-      .from('regular_orders')
-      .select('*')
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from('regular_orders')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    if (!error && data) {
-      setRegularOrders(data);
+      if (!error && data) {
+        const formattedData = data.map((item) => ({
+          ...item,
+          items: parseItems(item.items),
+        }));
+        setRegularOrders(formattedData);
+      }
+    } catch (err) {
+      console.error('Failed to fetch regular orders:', err);
     }
   };
 
@@ -87,13 +113,13 @@ export default function AdminDashboard() {
 
     // Listener Realtime Big Orders
     const bigChannel = supabase
-      .channel('realtime-big-orders')
+      .channel('realtime-big-orders-admin')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, fetchBigOrders)
       .subscribe();
 
     // Listener Realtime Regular Orders
     const regularChannel = supabase
-      .channel('realtime-regular-orders')
+      .channel('realtime-regular-orders-admin')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'regular_orders' }, fetchRegularOrders)
       .subscribe();
 
@@ -112,7 +138,11 @@ export default function AdminDashboard() {
       setSelectedBigOrder((prev) => (prev ? { ...prev, status: newStatus } : null));
     }
 
-    await supabase.from('orders').update({ status: newStatus }).eq('id', id);
+    const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', id);
+    if (error) {
+      console.error('Gagal update status Big Order:', error);
+      fetchBigOrders(); // Rollback jika error
+    }
   };
 
   // Handler Update Status Regular Order
@@ -124,7 +154,11 @@ export default function AdminDashboard() {
       setSelectedRegularOrder((prev) => (prev ? { ...prev, status: newStatus } : null));
     }
 
-    await supabase.from('regular_orders').update({ status: newStatus }).eq('id', id);
+    const { error } = await supabase.from('regular_orders').update({ status: newStatus }).eq('id', id);
+    if (error) {
+      console.error('Gagal update status Regular Order:', error);
+      fetchRegularOrders(); // Rollback jika error
+    }
   };
 
   // Filtering Big Orders
@@ -319,7 +353,7 @@ export default function AdminDashboard() {
                           )}
                         </td>
                         <td className="p-4 font-bold text-amber-400">
-                          Rp {order.total_harga?.toLocaleString('id-ID')}
+                          Rp {Number(order.total_harga || 0).toLocaleString('id-ID')}
                         </td>
                         <td className="p-4">{renderStatusBadge(order.status)}</td>
                         <td className="p-4 text-center">
@@ -466,7 +500,7 @@ export default function AdminDashboard() {
                         {item.namaMenu} <span className="text-amber-400 font-bold">x{item.jumlah}</span>
                       </span>
                       <span className="font-bold text-neutral-300">
-                        Rp {(item.harga * item.jumlah).toLocaleString('id-ID')}
+                        Rp {Number(item.harga * item.jumlah).toLocaleString('id-ID')}
                       </span>
                     </div>
                   ))}
@@ -476,7 +510,7 @@ export default function AdminDashboard() {
               <div className="flex justify-between items-center font-bold text-white pt-1">
                 <span>Total Pembayaran:</span>
                 <span className="text-amber-400 text-base">
-                  Rp {selectedRegularOrder.total_harga?.toLocaleString('id-ID')}
+                  Rp {Number(selectedRegularOrder.total_harga || 0).toLocaleString('id-ID')}
                 </span>
               </div>
 

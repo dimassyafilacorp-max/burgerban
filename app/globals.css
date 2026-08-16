@@ -24,3 +24,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Sembunyikan Vercel Live Feedback agar tidak mengunci klik */
+vercel-live-feedback,
+#vercel-live-feedback {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}

@@ -30,7 +30,7 @@ export const menuItems: MenuItem[] = [
     name: 'Paket Banbox A',
     category: 'paket',
     price: 35000,
-    description: 'Terdiri dari: Beef Burger, Chicken Burger, dan Egg Smoke Burger.',
+    description: 'Beef Burger, Chicken Burger, dan Egg Smoke Burger.',
     badge: 'Hemat',
     image: '/images/banbox_a.png',
   },
@@ -39,7 +39,7 @@ export const menuItems: MenuItem[] = [
     name: 'Paket Banbox B',
     category: 'paket',
     price: 37000,
-    description: 'Terdiri dari: Beef Burger, Crispy Chicken Burger, dan Egg Smoke Burger.',
+    description: 'Beef Burger, Crispy Chicken Burger, dan Egg Smoke Burger.',
     badge: 'Favorit',
     image: '/images/banbox_b.png',
   },
@@ -48,7 +48,7 @@ export const menuItems: MenuItem[] = [
     name: 'Paket BBC A',
     category: 'paket',
     price: 32000,
-    description: 'Terdiri dari: Big Beef Burger dan Big Chicken Burger.',
+    description: 'Big Beef Burger dan Big Chicken Burger.',
     image: '/images/bbc_a.png',
   },
   {
@@ -56,7 +56,7 @@ export const menuItems: MenuItem[] = [
     name: 'Paket BBC B',
     category: 'paket',
     price: 34000,
-    description: 'Terdiri dari: Big Beef Burger dan Big Crispy Chicken Burger.',
+    description: 'Big Beef Burger dan Big Crispy Chicken Burger.',
     image: '/images/bbc_b.png',
   },
   {
@@ -64,7 +64,7 @@ export const menuItems: MenuItem[] = [
     name: 'Paket Miniban A',
     category: 'paket',
     price: 26000,
-    description: 'Terdiri dari: Beef Burger, Chicken Burger, dan Egg Smoke Burger (porsi mini/ringan).',
+    description: 'Beef Burger, Chicken Burger, dan Egg Smoke Burger (porsi mini/ringan).',
     badge: 'Super Murah',
     image: '/images/miniban_a.png',
   },
@@ -73,7 +73,7 @@ export const menuItems: MenuItem[] = [
     name: 'Paket Miniban B',
     category: 'paket',
     price: 28000,
-    description: 'Terdiri dari: Beef Burger, Chicken Burger, dan Egg Smoke Burger.',
+    description: 'Beef Burger, Chicken Burger, dan Egg Smoke Burger.',
     image: '/images/miniban_b.png',
   },
 
@@ -84,7 +84,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 13000,
     description: 'Burger dengan juicy beef patty pilihan dan saus spesial Burgerban.',
-    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'chicken-burger',
@@ -92,7 +92,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 10000,
     description: 'Burger patty ayam lembut dengan kombinasi sayur segar.',
-    image: 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'crispy-chicken-burger',
@@ -100,7 +100,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 11000,
     description: 'Burger dengan daging ayam goreng renyah dan gurih.',
-    image: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'egg-smoke-burger',
@@ -108,7 +108,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 8000,
     description: 'Burger lezat dengan kombinasi telur dan aroma smoked spesial.',
-    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'smoke-beef-burger',
@@ -116,7 +116,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 6000,
     description: 'Burger porsi pas dengan potongan smoked beef gurih.',
-    image: 'https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'scrambled-egg-burger',
@@ -124,7 +124,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 6000,
     description: 'Burger simpel dengan isian scrambled egg yang lembut.',
-    image: 'https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'big-beef-burger',
@@ -133,7 +133,7 @@ export const menuItems: MenuItem[] = [
     price: 21000,
     description: 'Porsi lebih besar dengan ekstra beef patty yang memuaskan.',
     badge: 'Popular',
-    image: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'big-chicken-burger',
@@ -141,7 +141,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 15000,
     description: 'Porsi besar chicken burger untuk kepuasan ekstra.',
-    image: 'https://images.unsplash.com/photo-1615297928064-24977384d0da?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'big-crispy-chicken-burger',
@@ -149,7 +149,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 17000,
     description: 'Crispy chicken ukuran jumbo yang super renyah.',
-    image: 'https://images.unsplash.com/photo-1513185158878-8d8c2a2a3da3?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'double-beef-burger',
@@ -158,7 +158,7 @@ export const menuItems: MenuItem[] = [
     price: 29000,
     description: 'Dua lapis beef patty juicy dengan double kelezatan.',
     badge: 'Best Seller',
-    image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'double-chicken-burger',
@@ -166,7 +166,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 21000,
     description: 'Dua lapis patty ayam melimpah dan mengenyangkan.',
-    image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
 
   // --- 3. SIDE DISHES (Gambar Google / Unsplash) ---
@@ -176,7 +176,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 10000,
     description: 'Tambahan topping 100% beef patty premium.',
-    image: 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'chicken-patty',
@@ -184,7 +184,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 7000,
     description: 'Tambahan topping patty ayam gurih.',
-    image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'crispy-chicken-patty',
@@ -192,7 +192,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 8000,
     description: 'Tambahan topping ayam krispi renyah.',
-    image: 'https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'cheese-egg',
@@ -200,7 +200,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 4000,
     description: 'Ekstra slice keju atau telur dadar/ceplok.',
-    image: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'kentang-goreng',
@@ -208,7 +208,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 8000,
     description: 'French fries renyah dengan bumbu gurih pas.',
-    image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
   {
     id: 'mayo',
@@ -216,6 +216,6 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 2000,
     description: 'Ekstra saus mayones creamy spesial.',
-    image: 'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=600&q=80',
+    image: '/images/tidak_ada.png',
   },
 ];

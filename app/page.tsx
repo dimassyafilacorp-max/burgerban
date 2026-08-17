@@ -91,7 +91,7 @@ export default function Home() {
     if (!isMounted) return false;
     return cart.some(
       (item) => ((item.category as string) === 'paket' || (item.category as string) === 'combo') && item.quantity > 0
-  );
+    );
   }, [cart, isMounted]);
 
   // Trigger animasi tombol keranjang mengambang
@@ -236,7 +236,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans relative flex flex-col justify-between">
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans relative flex flex-col justify-between selection:bg-amber-400">
       {/* Navbar Fixed */}
       <Navbar />
 
@@ -244,10 +244,10 @@ export default function Home() {
       <div className="pt-16 flex-1 flex flex-col justify-between">
         <div>
           {/* Search Bar Panel */}
-          <section className="bg-white border-b border-gray-200 py-4 shadow-sm">
+          <section className="bg-white border-b border-gray-200 py-4 shadow-sm relative z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
               <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Cari menu favorit..."
@@ -260,7 +260,7 @@ export default function Home() {
           </section>
 
           {/* Hero Banner */}
-          <section className="bg-white border-b border-gray-200 py-12 px-4 text-center">
+          <section className="bg-white border-b border-gray-200 py-12 px-4 text-center relative z-10">
             <div className="max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold mb-4 border border-amber-200">
                 <Flame className="h-4 w-4 text-amber-600" /> 100% Quality Premium Beef
@@ -275,7 +275,7 @@ export default function Home() {
           </section>
 
           {/* Category Filter Pills & Menu Grid */}
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="menu">
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10" id="menu">
             
             {/* Banner Informasi Aturan Pre-Order */}
             {isMounted && !hasBundlingInCart && (
@@ -296,15 +296,16 @@ export default function Home() {
               {categories.map((cat) => (
                 <button
                   key={cat.id}
+                  type="button"
                   onClick={() => handleCategoryChange(cat.id)}
-                  className={`px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                  className={`px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer touch-manipulation ${
                     activeCategory === cat.id
                       ? 'bg-black text-white shadow-md'
                       : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-100'
                   }`}
                 >
                   {cat.id === 'paket' && <Package className="w-4 h-4 text-amber-400" />}
-                  {cat.label}
+                  <span>{cat.label}</span>
                 </button>
               ))}
             </div>
@@ -335,7 +336,7 @@ export default function Home() {
                             isLocked ? 'grayscale-[40%]' : 'group-hover:scale-105'
                           }`}
                         />
-                        <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10">
+                        <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10 pointer-events-none">
                           {isPaket && (
                             <span className="bg-black text-amber-400 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider flex items-center gap-1 shadow-md">
                               <Package className="w-3 h-3" /> Paket Bundling
@@ -350,7 +351,7 @@ export default function Home() {
 
                         {/* Overlay Lock jika menu masih dikunci */}
                         {isLocked && (
-                          <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px] flex items-center justify-center p-4">
+                          <div className="absolute inset-0 bg-black/25 backdrop-blur-[1px] flex items-center justify-center p-4 pointer-events-none">
                             <span className="bg-black/90 text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg border border-amber-400/30">
                               <Lock className="w-3.5 h-3.5 text-amber-400" />
                               Pilih Bundling Dulu
@@ -375,24 +376,26 @@ export default function Home() {
                         </span>
                       </div>
 
+                      {/* Tombol Tambah yang Diperbaiki */}
                       <button
-                        onClick={() => addToCart(item)}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart(item);
+                        }}
                         disabled={isLocked}
-                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-1 shadow-sm ${
+                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-1.5 shadow-sm cursor-pointer touch-manipulation z-20 ${
                           isLocked
-                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed active:scale-100'
                             : 'bg-black hover:bg-gray-800 text-white active:scale-95'
                         }`}
                       >
                         {isLocked ? (
-                          <>
-                            <Lock className="h-3.5 w-3.5" /> Terkunci
-                          </>
+                          <Lock className="h-3.5 w-3.5" />
                         ) : (
-                          <>
-                            <Plus className="h-4 w-4" /> Tambah
-                          </>
+                          <Plus className="h-4 w-4" />
                         )}
+                        <span>{isLocked ? 'Terkunci' : 'Tambah'}</span>
                       </button>
                     </div>
                   </div>
@@ -411,9 +414,10 @@ export default function Home() {
               <div className="mt-12 flex flex-col items-center gap-3">
                 <div className="flex items-center gap-2">
                   <button
+                    type="button"
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer touch-manipulation"
                     aria-label="Previous Page"
                   >
                     <ChevronLeft className="w-5 h-5" />
@@ -428,8 +432,9 @@ export default function Home() {
                       return (
                         <button
                           key={page}
+                          type="button"
                           onClick={() => handlePageChange(page)}
-                          className={`w-10 h-10 flex items-center justify-center rounded-xl font-bold text-sm transition ${
+                          className={`w-10 h-10 flex items-center justify-center rounded-xl font-bold text-sm transition cursor-pointer touch-manipulation ${
                             currentPage === page
                               ? 'bg-amber-400 text-black shadow-sm'
                               : 'bg-white border border-gray-200 text-gray-800 hover:bg-gray-50'
@@ -452,9 +457,10 @@ export default function Home() {
                   })}
 
                   <button
+                    type="button"
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    className="w-10 h-10 flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer touch-manipulation"
                     aria-label="Next Page"
                   >
                     <ChevronRight className="w-5 h-5" />
@@ -470,11 +476,12 @@ export default function Home() {
           </main>
         </div>
 
-        {/* FLOATING CART BUTTON (Melayang & Berhenti Tepat Di Atas Footer) */}
-        <div className="sticky bottom-6 z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-end pointer-events-none pb-6 pt-2">
+        {/* FLOATING CART BUTTON FIXED */}
+        <div className="fixed bottom-6 right-6 z-40">
           <button
+            type="button"
             onClick={() => setIsCartOpen(true)}
-            className={`pointer-events-auto flex items-center gap-3 bg-black hover:bg-stone-800 text-white px-5 py-3.5 rounded-full shadow-2xl border border-stone-800 transition-all duration-300 ease-out active:scale-95 ${
+            className={`flex items-center gap-3 bg-black hover:bg-stone-800 text-white px-5 py-3.5 rounded-full shadow-2xl border border-stone-800 transition-all duration-300 ease-out cursor-pointer touch-manipulation active:scale-95 ${
               isAnimating
                 ? 'scale-110 -translate-y-1 ring-4 ring-amber-400/50 bg-stone-900'
                 : 'hover:scale-105'
@@ -511,7 +518,7 @@ export default function Home() {
           />
 
           <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-            <div className="w-screen max-w-md bg-white text-gray-900 flex flex-col justify-between shadow-2xl border-l border-gray-200">
+            <div className="w-screen max-w-md bg-white text-gray-900 flex flex-col justify-between shadow-2xl border-l border-gray-200 relative z-10">
               {/* Header Modal */}
               <div className="p-6 border-b border-gray-200 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -519,8 +526,9 @@ export default function Home() {
                   <h2 className="text-xl font-bold">Keranjang Pesanan</h2>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setIsCartOpen(false)}
-                  className="p-2 text-gray-400 hover:text-black rounded-lg transition"
+                  className="p-2 text-gray-400 hover:text-black rounded-lg transition cursor-pointer touch-manipulation"
                 >
                   <X className="h-6 w-6" />
                 </button>
@@ -557,8 +565,9 @@ export default function Home() {
 
                           <div className="flex items-center gap-2 bg-white px-2 py-1 rounded-lg border border-gray-300">
                             <button
+                              type="button"
                               onClick={() => updateQuantity(item.id, -1)}
-                              className="p-1 hover:text-black text-gray-600"
+                              className="p-1 hover:text-black text-gray-600 cursor-pointer touch-manipulation"
                             >
                               <Minus className="h-3 w-3" />
                             </button>
@@ -566,16 +575,18 @@ export default function Home() {
                               {item.quantity}
                             </span>
                             <button
+                              type="button"
                               onClick={() => updateQuantity(item.id, 1)}
-                              className="p-1 hover:text-black text-gray-600"
+                              className="p-1 hover:text-black text-gray-600 cursor-pointer touch-manipulation"
                             >
                               <Plus className="h-3 w-3" />
                             </button>
                           </div>
 
                           <button
+                            type="button"
                             onClick={() => removeFromCart(item.id)}
-                            className="text-gray-400 hover:text-red-600 p-1 transition"
+                            className="text-gray-400 hover:text-red-600 p-1 transition cursor-pointer touch-manipulation"
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
@@ -638,9 +649,10 @@ export default function Home() {
                   </div>
 
                   <button
+                    type="button"
                     onClick={handleCheckoutWA}
                     disabled={!hasBundlingInCart}
-                    className={`w-full font-bold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md ${
+                    className={`w-full font-bold py-3.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md cursor-pointer touch-manipulation ${
                       hasBundlingInCart
                         ? 'bg-green-600 hover:bg-green-700 text-white active:scale-98'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'

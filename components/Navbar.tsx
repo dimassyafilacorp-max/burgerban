@@ -39,6 +39,11 @@ export default function Navbar() {
     };
   }, [lastScrollY, isMobileMenuOpen]);
 
+  // Tutup mobile menu otomatis saat perpindahan rute/halaman
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
   const navItems = [
     { name: 'Menu', href: '/' },
     { name: 'Tentang Kami', href: '/about' },
@@ -49,19 +54,19 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm transition-transform duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+        isVisible ? 'translate-y-0 pointer-events-auto' : '-translate-y-full pointer-events-none'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        {/* Logo Section: Presisi Tinggi Atas-Bawah */}
+        {/* Logo Section */}
         <Link href="/" className="flex items-center gap-2.5">
           <div className="relative w-9 h-9 flex-shrink-0 flex items-center justify-center">
             <Image
               src="/logo.png"
               alt="Burgerban Logo"
               fill
-              className="object-contain scale-125" // Scale dinaikkan sedikit untuk menghilangkan efek padding bawaan gambar
+              className="object-contain scale-125"
               priority
             />
           </div>
@@ -99,8 +104,9 @@ export default function Navbar() {
 
         {/* Mobile Hamburger Button */}
         <button
+          type="button"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden p-2 text-gray-700 hover:text-black focus:outline-none"
+          className="md:hidden p-2 text-gray-700 hover:text-black focus:outline-none cursor-pointer touch-manipulation"
           aria-label="Toggle navigation menu"
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
@@ -109,7 +115,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation Dropdown */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-4 space-y-2">
+        <div className="md:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-4 space-y-2 relative z-50">
           {navItems.map((item) => {
             const isActive =
               item.href === '/'

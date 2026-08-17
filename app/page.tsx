@@ -236,15 +236,15 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans relative flex flex-col justify-between selection:bg-amber-400">
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans relative flex flex-col justify-between selection:bg-amber-400 overflow-x-hidden">
       {/* Navbar Fixed */}
       <Navbar />
 
-      {/* Main Content Area */}
-      <div className="pt-16 flex-1 flex flex-col justify-between">
+      {/* Main Content Area - z-index dinaikkan menjadi z-20 agar interaksi elemen berfungsi */}
+      <div className="pt-16 flex-1 flex flex-col justify-between relative z-20 pointer-events-auto">
         <div>
           {/* Search Bar Panel */}
-          <section className="bg-white border-b border-gray-200 py-4 shadow-sm relative z-10">
+          <section className="bg-white border-b border-gray-200 py-4 shadow-sm relative z-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 pointer-events-none" />
@@ -260,7 +260,7 @@ export default function Home() {
           </section>
 
           {/* Hero Banner */}
-          <section className="bg-white border-b border-gray-200 py-12 px-4 text-center relative z-10">
+          <section className="bg-white border-b border-gray-200 py-12 px-4 text-center relative z-20">
             <div className="max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-900 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold mb-4 border border-amber-200">
                 <Flame className="h-4 w-4 text-amber-600" /> 100% Quality Premium Beef
@@ -275,7 +275,7 @@ export default function Home() {
           </section>
 
           {/* Category Filter Pills & Menu Grid */}
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10" id="menu">
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-20" id="menu">
             
             {/* Banner Informasi Aturan Pre-Order */}
             {isMounted && !hasBundlingInCart && (
@@ -376,7 +376,7 @@ export default function Home() {
                         </span>
                       </div>
 
-                      {/* Tombol Tambah yang Diperbaiki */}
+                      {/* Tombol Tambah */}
                       <button
                         type="button"
                         onClick={(e) => {
@@ -384,7 +384,7 @@ export default function Home() {
                           addToCart(item);
                         }}
                         disabled={isLocked}
-                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-1.5 shadow-sm cursor-pointer touch-manipulation z-20 ${
+                        className={`px-4 py-2 rounded-xl text-sm font-semibold transition flex items-center gap-1.5 shadow-sm cursor-pointer touch-manipulation z-30 ${
                           isLocked
                             ? 'bg-gray-200 text-gray-400 cursor-not-allowed active:scale-100'
                             : 'bg-black hover:bg-gray-800 text-white active:scale-95'
@@ -476,7 +476,7 @@ export default function Home() {
           </main>
         </div>
 
-        {/* FLOATING CART BUTTON FIXED */}
+        {/* FLOATING CART BUTTON */}
         <div className="fixed bottom-6 right-6 z-40">
           <button
             type="button"

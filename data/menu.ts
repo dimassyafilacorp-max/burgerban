@@ -84,7 +84,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 13000,
     description: 'Burger dengan juicy beef patty pilihan dan saus spesial Burgerban.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'chicken-burger',
@@ -92,7 +92,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 10000,
     description: 'Burger patty ayam lembut dengan kombinasi sayur segar.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'crispy-chicken-burger',
@@ -100,7 +100,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 11000,
     description: 'Burger dengan daging ayam goreng renyah dan gurih.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'egg-smoke-burger',
@@ -108,7 +108,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 8000,
     description: 'Burger lezat dengan kombinasi telur dan aroma smoked spesial.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'smoke-beef-burger',
@@ -116,7 +116,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 6000,
     description: 'Burger porsi pas dengan potongan smoked beef gurih.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'scrambled-egg-burger',
@@ -124,7 +124,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 6000,
     description: 'Burger simpel dengan isian scrambled egg yang lembut.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'big-beef-burger',
@@ -133,7 +133,7 @@ export const menuItems: MenuItem[] = [
     price: 21000,
     description: 'Porsi lebih besar dengan ekstra beef patty yang memuaskan.',
     badge: 'Popular',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'big-chicken-burger',
@@ -141,7 +141,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 15000,
     description: 'Porsi besar chicken burger untuk kepuasan ekstra.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'big-crispy-chicken-burger',
@@ -149,7 +149,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 17000,
     description: 'Crispy chicken ukuran jumbo yang super renyah.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'double-beef-burger',
@@ -158,7 +158,7 @@ export const menuItems: MenuItem[] = [
     price: 29000,
     description: 'Dua lapis beef patty juicy dengan double kelezatan.',
     badge: 'Best Seller',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'double-chicken-burger',
@@ -166,7 +166,7 @@ export const menuItems: MenuItem[] = [
     category: 'burgers',
     price: 21000,
     description: 'Dua lapis patty ayam melimpah dan mengenyangkan.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
 
   // --- 3. SIDE DISHES (Gambar Google / Unsplash) ---
@@ -176,7 +176,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 10000,
     description: 'Tambahan topping 100% beef patty premium.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'chicken-patty',
@@ -184,7 +184,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 7000,
     description: 'Tambahan topping patty ayam gurih.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'crispy-chicken-patty',
@@ -192,7 +192,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 8000,
     description: 'Tambahan topping ayam krispi renyah.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'cheese-egg',
@@ -200,7 +200,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 4000,
     description: 'Ekstra slice keju atau telur dadar/ceplok.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'kentang-goreng',
@@ -208,7 +208,7 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 8000,
     description: 'French fries renyah dengan bumbu gurih pas.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
   {
     id: 'mayo',
@@ -216,6 +216,6 @@ export const menuItems: MenuItem[] = [
     category: 'sides',
     price: 2000,
     description: 'Ekstra saus mayones creamy spesial.',
-    image: '/images/tidak_ada.png',
+    image: '/images/comingsoon.jpg',
   },
 ];

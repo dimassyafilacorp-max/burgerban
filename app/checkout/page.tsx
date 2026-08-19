@@ -2,14 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { CartItem, WHATSAPP_NUMBER } from '@/data/menu';
-import { ArrowLeft, ShoppingBag, Send, Plus, Minus, Trash2 } from 'lucide-react';
+import { CartItem } from '@/data/menu';
+import { ArrowLeft, ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Form Pembeli
   const [name, setName] = useState('');
@@ -60,34 +62,100 @@ export default function CheckoutPage() {
 
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const handleSubmitOrder = (e: React.FormEvent) => {
+  // Process Checkout via Instagram
+  const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (cart.length === 0) return;
 
-    const itemsList = cart
-      .map(
-        (item, index) =>
-          `${index + 1}. *${item.name}* (${item.quantity}x) = Rp ${(
-            item.price * item.quantity
-          ).toLocaleString('id-ID')}`
-      )
-      .join('\n');
+    if (cart.length === 0) {
+      alert('Keranjang belanja Anda kosong!');
+      return;
+    }
 
-    const message =
-      `*PESANAN BARU - BURGERBAN*\n\n` +
-      `*Nama:* ${name}\n` +
-      `*No. HP:* ${phone}\n` +
-      `*Alamat:* ${address}\n` +
-      `*Catatan:* ${notes || '-'}\n\n` +
-      `*Rincian Pesanan:*\n${itemsList}\n\n` +
-      `*Total Pembayaran:* Rp ${totalPrice.toLocaleString('id-ID')}\n\n` +
-      `Mohon diproses pesanan saya. Terima kasih!`;
+    if (!address.trim()) {
+      alert('Silakan isi Alamat Lengkap!');
+      return;
+    }
 
-    const encodedMessage = encodeURIComponent(message);
+    setIsSubmitting(true);
 
-    // Kosongkan keranjang setelah checkout dikirim
-    updateCartState([]);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
+    try {
+      const orderId = `REG-${Date.now().toString().slice(-6)}`;
+
+      // Format items untuk database Supabase
+      const itemsForDb = cart.map((item) => ({
+        namaMenu: item.name,
+        jumlah: item.quantity,
+        harga: item.price,
+      }));
+
+      const combinedNote = `Alamat: ${address.trim()} | Catatan: ${notes.trim() || '-'}`;
+
+      // 1. Simpan ke Supabase agar tetap masuk Admin Panel
+      const { data, error } = await supabase
+        .from('regular_orders')
+        .insert([
+          {
+            order_id: orderId,
+            nama: name.trim() || 'Pelanggan Ritel',
+            telepon: phone.trim() || '-',
+            items: itemsForDb,
+            total_harga: totalPrice,
+            catatan: combinedNote,
+            status: 'Pending',
+          },
+        ])
+        .select();
+
+      if (error) {
+        console.error('⚠️ Supabase Insert Error:', error);
+        alert(`Gagal menyimpan pesanan: ${error.message}`);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // 2. Format Teks Pesanan untuk Instagram DM
+      const itemsList = cart
+        .map(
+          (item, index) =>
+            `${index + 1}. ${item.name} (${item.quantity}x) = Rp ${(
+              item.price * item.quantity
+            ).toLocaleString('id-ID')}`
+        )
+        .join('\n');
+
+      const message =
+        `Halo Burgerban! Saya mau konfirmasi pesanan:\n\n` +
+        `ID Pesanan: ${orderId}\n` +
+        `Nama: ${name || '-'}\n` +
+        `No. HP: ${phone || '-'}\n` +
+        `Alamat: ${address}\n` +
+        `Catatan: ${notes || '-'}\n\n` +
+        `Rincian Pesanan:\n${itemsList}\n\n` +
+        `Total Pembayaran: Rp ${totalPrice.toLocaleString('id-ID')}\n\n` +
+        `Mohon diproses pesanan saya. Terima kasih!`;
+
+      // 3. Salin rincian pesanan ke Clipboard pelanggan
+      try {
+        await navigator.clipboard.writeText(message);
+        alert('Rincian pesanan berhasil disalin! Silakan Paste (Tempel) di DM Instagram kami.');
+      } catch (clipErr) {
+        console.error('Gagal menyalin teks ke clipboard:', clipErr);
+      }
+
+      // 4. Kosongkan keranjang belanja
+      updateCartState([]);
+
+      // 5. Buka Direct Message Instagram Toko
+      const instagramUsername = 'burgerban.id'; // Ganti sesuai username Instagram kamu
+      window.open(`https://ig.me/m/${instagramUsername}`, '_blank');
+      
+      router.push('/');
+    } catch (err) {
+      alert('Terjadi kesalahan saat memproses pesanan.');
+      console.error('Catch Error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isMounted) return null;
@@ -128,10 +196,9 @@ export default function CheckoutPage() {
               <h2 className="font-bold text-lg text-gray-900 border-b pb-3">Data Pengiriman</h2>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap *</label>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap (Opsional)</label>
                 <input
                   type="text"
-                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Contoh: Budi Santoso"
@@ -140,10 +207,9 @@ export default function CheckoutPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-1">No. WhatsApp *</label>
+                <label className="block text-xs font-bold text-gray-700 mb-1">No. Kontak / HP (Opsional)</label>
                 <input
                   type="tel"
-                  required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Contoh: 081234567890"
@@ -178,9 +244,19 @@ export default function CheckoutPage() {
 
               <button
                 type="submit"
-                className="w-full mt-4 bg-amber-400 hover:bg-amber-500 text-black font-extrabold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md active:scale-95"
+                disabled={isSubmitting}
+                className="w-full mt-4 bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 hover:opacity-90 disabled:opacity-50 text-white font-extrabold py-3.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-md active:scale-95"
               >
-                <Send className="w-4 h-4" /> Kirim Pesanan via WhatsApp
+                {isSubmitting ? (
+                  'Memproses...'
+                ) : (
+                  <>
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                    Kirim Pesanan via Instagram
+                  </>
+                )}
               </button>
             </form>
 

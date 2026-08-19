@@ -218,4 +218,12 @@ export const menuItems: MenuItem[] = [
     description: 'Ekstra saus mayones creamy spesial.',
     image: '/images/comingsoon.jpg',
   },
+  {
+    id: 'sosis', 
+    name: 'Sosis',
+    category: 'sides', 
+    price: 5000,
+    description: 'Tambahan sosis 2 pcs.',
+    image: '/images/comingsoon.jpg', 
+  },
 ];
